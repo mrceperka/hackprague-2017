@@ -11,16 +11,6 @@ import {
   dataToJS
 } from "react-redux-firebase";
 
-import {
-  Button,
-  List,
-  ListItem,
-  IconButton,
-  Input,
-  Switch,
-  Dropdown
-} from "react-toolbox";
-
 import { getCheckpoints } from "../../selectors/board";
 class Board extends React.Component {
   state = {
