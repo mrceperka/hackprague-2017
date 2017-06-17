@@ -1,6 +1,7 @@
 import React from "react";
 import R from "ramda";
 import uuid from "uuid";
+import isEmail from "validator/lib/isEmail";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import {
@@ -10,20 +11,32 @@ import {
   dataToJS
 } from "react-redux-firebase";
 
-import { Button, List, ListItem, IconButton } from "react-toolbox";
+import {
+  Button,
+  List,
+  ListItem,
+  IconButton,
+  Input,
+  Switch,
+  Dropdown
+} from "react-toolbox";
 
 import { getCheckpoints } from "../../selectors/board";
 class Board extends React.Component {
   state = {
     title: "",
+    email: "",
     desc: "",
+    theme: "dark",
+    units: "points",
     type: "basic",
+    is_discoverable: true,
     checkpoint: {
       title: "",
       score: 0
     },
     checkpoints: [],
-    admin_approval: 0
+    admin_approval: false
   };
 
   componentDidMount() {
@@ -38,16 +51,6 @@ class Board extends React.Component {
     }
   }
 
-  boardToState = board => {
-    this.setState({
-      title: board.title,
-      desc: board.description,
-      checkpoints: getCheckpoints(board),
-      admin_approval: board.admin_approve_required ? 1 : 0,
-      type: R.keys(board.checkpoints).length > 0 ? "checkpoints" : "basic"
-    });
-  };
-
   render() {
     return (
       <div className="box d-col ai-c fb-100">
@@ -56,84 +59,153 @@ class Board extends React.Component {
         </div>
         <div className="box d-col">
           <div className="box d-col">
-            <div className="label">Title</div>
+            <div>
+              Tell us your email address, please
+            </div>
+            <div>
+              <input
+                type="email"
+                name="email"
+                value={this.state.email}
+                onChange={e =>
+                  this.handleStringChange("email", e.target.value, true)}
+              />
+            </div>
+          </div>
+
+          <div className="box d-col">
+            <div>
+              Name your board
+            </div>
             <div>
               <input
                 type="text"
-                className="input"
+                name="title"
                 value={this.state.title}
-                onChange={this.onTitleChange}
+                onChange={e =>
+                  this.handleStringChange("title", e.target.value, true)}
               />
             </div>
           </div>
+
           <div className="box d-col">
-            <div className="label">Description</div>
-            <div>
-              <textarea
-                style={{ minHeight: 100 }}
-                className="input"
-                value={this.state.desc}
-                onChange={this.onDescriptionChange}
-              />
-            </div>
-          </div>
-          <div className="box d-col">
-            <div className="label">Admin approval</div>
-            <div>
-              <input
-                type="radio"
-                name="admin_approval"
-                defaultChecked={this.state.admin_approval === 1}
-                value={1}
-                onChange={this.onAdminRadioChange}
-              />
-              Yes
+            <div className="label">
+              Should it be private or publicly discoverable?
             </div>
             <div>
               <input
                 type="radio"
-                name="admin_approval"
-                defaultChecked={this.state.admin_approval === 0}
-                value={0}
-                onChange={this.onAdminRadioChange}
+                name="is_discoverable"
+                checked={this.state.is_discoverable === true}
+                onChange={() => this.handleAnyChange("is_discoverable", true)}
               />
-              No
+              Public
+              <input
+                type="radio"
+                name="is_discoverable"
+                checked={this.state.is_discoverable === false}
+                onChange={() => this.handleAnyChange("is_discoverable", false)}
+              />
+              Private
             </div>
           </div>
           <div className="box d-col">
-            <div className="label">Type</div>
+            <div>
+              Select your theme
+            </div>
             <div>
               <select
-                name="type"
+                onChange={e => this.handleAnyChange("theme", e.target.value)}
+                value={this.state.theme}
+              >
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+              </select>
+            </div>
+          </div>
+          <div className="box d-col">
+            <div>
+              Give some short description to your board
+            </div>
+            <div>
+              <textarea
+                name="desc"
+                value={this.state.desc}
+                onChange={e => this.handleAnyChange("desc", e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="box d-col">
+            <div>
+              And now select you board type
+            </div>
+            <div>
+              <select
+                onChange={e => this.handleAnyChange("type", e.target.value)}
                 value={this.state.type}
-                onChange={this.onTypeChange}
               >
                 <option value="basic">Basic</option>
                 <option value="checkpoints">Checkpoints</option>
               </select>
             </div>
           </div>
+          {this.state.type === "basic" &&
+            <div>
+              <div className="box d-col">
+                <div className="label">
+                  Is it admin protected to change scores?
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    name="admin_approval"
+                    checked={this.state.admin_approval === true}
+                    onChange={() =>
+                      this.handleAnyChange("admin_approval", true)}
+                  />
+                  Yes
+                  <input
+                    type="radio"
+                    name="admin_approval"
+                    checked={this.state.admin_approval === false}
+                    onChange={() =>
+                      this.handleAnyChange("admin_approval", false)}
+                  />
+                  No
+                </div>
+              </div>
+
+              <div className="box d-col">
+                <div>
+                  Write down units of achievements
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="units"
+                    value={this.state.units}
+                    onChange={e =>
+                      this.handleAnyChange("units", e.target.value, true)}
+                  />
+                </div>
+              </div>
+            </div>}
+
           {this.state.type === "checkpoints" &&
             <div className="box d-col">
-              <List>
+              <div className="box d-col">
                 {R.addIndex(R.map)(
                   (item, i) =>
-                    <div key={i}>
-                      <ListItem
-                        caption={item.title}
-                        legend={"Score: " + item.score}
-                        rightActions={[
-                          <IconButton
-                            key={1}
-                            onClick={() => this.removeCheckpoint(item.id)}
-                            icon="delete"
-                          />
-                        ]}
-                      />
+                    <div className="box" key={i}>
+                      <div>{item.title}</div>
+                      <div>{"Score: " + item.score}</div>
+                      <div onClick={() => this.removeCheckpoint(item.id)}>
+                        Delete
+                      </div>
                     </div>,
                   this.state.checkpoints
                 )}
-              </List>
+              </div>
               <div className="box d-col">
                 <div className="box d-col">
                   <div className="label">Title</div>
@@ -141,7 +213,6 @@ class Board extends React.Component {
                     <input
                       type="text"
                       name="checkpoint_title"
-                      className="input"
                       value={this.state.checkpoint.title}
                       onChange={this.onCheckpointTitleChange}
                     />
@@ -153,7 +224,6 @@ class Board extends React.Component {
                     <input
                       name="checkpoint_score"
                       type="number"
-                      className="input"
                       value={this.state.checkpoint.score}
                       onChange={this.onCheckpointScoreChange}
                     />
@@ -161,31 +231,17 @@ class Board extends React.Component {
                 </div>
                 <div className="spacer spacer-small" />
                 <div className="box">
-                  <Button
-                    label="Add"
-                    onClick={this.addCheckPoint}
-                    icon="add"
-                    raised
-                  />
+                  <div onClick={this.addCheckPoint}>Add</div>
                 </div>
               </div>
             </div>}
+
           <div className="spacer" />
           <div className="spacer" />
           <div className="box">
             {this.isEdit()
-              ? <Button
-                  label="Edit"
-                  icon="edit"
-                  onClick={this.updateBoard}
-                  primary
-                />
-              : <Button
-                  label="Add"
-                  icon="add"
-                  onClick={this.addBoard}
-                  primary
-                />}
+              ? <div onClick={this.updateBoard}>Edit</div>
+              : <div onClick={this.addBoard}>Add</div>}
 
           </div>
         </div>
@@ -193,26 +249,12 @@ class Board extends React.Component {
     );
   }
 
-  onTitleChange = e => {
-    const value = e.target.value;
-    this.setState({ title: R.trim(value) });
+  handleStringChange = (name, value, trim = false) => {
+    this.setState({ ...this.state, [name]: trim ? R.trim(value) : value });
   };
 
-  onDescriptionChange = e => {
-    const value = e.target.value;
-    this.setState({ desc: value });
-  };
-
-  onAdminRadioChange = e => {
-    const value = e.target.value;
-    this.setState({ admin_approval: value });
-  };
-
-  onTypeChange = e => {
-    const value = e.target.value;
-    this.setState({
-      type: value
-    });
+  handleAnyChange = (name, value) => {
+    this.setState({ ...this.state, [name]: value });
   };
 
   onCheckpointTitleChange = e => {
@@ -274,11 +316,31 @@ class Board extends React.Component {
     }
   };
 
+  boardToState = board => {
+    this.setState({
+      title: board.title,
+      is_discoverable: board.is_discoverable,
+      desc: board.description,
+      checkpoints: getCheckpoints(board),
+      admin_approval: board.admin_approve_required,
+      units: board.units,
+      email: board.email,
+
+      //bonus
+      type: R.keys(board.checkpoints).length > 0 ? "checkpoints" : "basic"
+    });
+  };
+
   boardToApi = () => ({
     title: this.state.title,
-    admin_approve_required: this.state.admin_approval === 1 ? true : false,
+    is_discoverable: this.state.is_discoverable,
+    admin_approve_required: this.state.admin_approval,
     description: this.state.desc,
-    checkpoints: this.state.type === "checkpoints" ? this.state.checkpoints : []
+    checkpoints: this.state.type === "checkpoints"
+      ? this.state.checkpoints
+      : [],
+    units: this.state.units,
+    email: this.state.email
   });
 
   updateBoard = () => {
@@ -292,6 +354,10 @@ class Board extends React.Component {
   };
 
   isBoardValid = () => {
+    if (isEmail(this.state.email) === false) {
+      alert("fill valid email please");
+      return false;
+    }
     if (
       this.state.type === "checkpoints" &&
       this.state.checkpoints.length === 0
