@@ -9,31 +9,49 @@ import {
   dataToJS
 } from "react-redux-firebase";
 
+import { getUsers } from "../../../selectors/board";
+
 class BoardDetail extends React.Component {
-  state = {
-    board: null,
-    loading: true
+  sortByScore = (a, b, type = "DESC") => {
+    return type === "ASC" ? a.score > b.score : a.score < b.score;
   };
-  componentDidMount() {
-    const { id } = this.props.match.params;
-    const board = this.props.firebase
-      .database()
-      .ref("/boards/" + id)
-      .once("value")
-      .then(snapshot => {
-        this.setState({ loading: false, board: snapshot.val() });
-      });
-  }
+
+  getTopThree = () => {
+    const { board } = this.props;
+    const top3 = R.pipe(getUsers, R.sort(this.sortByScore), R.take(3));
+
+    return top3(board);
+  };
+
   render() {
-    const { board } = this.state;
+    const { board } = this.props;
     return (
       <div className="box d-col fb-100">
-        {this.state.loading === false
-          ? <div>{board.title}</div>
+        {isLoaded(board)
+          ? <div className="box d-col">
+              <div>
+                {board.title}
+              </div>
+              <div>
+                {this.getTopThree().map((user, i) =>
+                  <div key={i}> {user.name} {user.score}</div>
+                )}
+              </div>
+              <div>
+                <img src="/static/gold-star.svg" />
+              </div>
+            </div>
           : <div className="loading">Loading...</div>}
       </div>
     );
   }
 }
 
-export default compose(firebaseConnect())(BoardDetail);
+export default compose(
+  firebaseConnect(["/boards"]),
+  connect(({ firebase }, { match }) => {
+    return {
+      board: dataToJS(firebase, "/boards/" + match.params.id)
+    };
+  })
+)(BoardDetail);
