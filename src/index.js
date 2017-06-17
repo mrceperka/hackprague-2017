@@ -3,8 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Root from "./Root";
 
-import 'bootstrap/dist/css/bootstrap.css';
-import './theme/material.min.css';
+import "bootstrap/dist/css/bootstrap.css";
 import "./theme/main.less";
 
 const rootEl = document.getElementById("root");

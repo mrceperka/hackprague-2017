@@ -39,7 +39,7 @@ class AppHeader extends Component {
   render() {
     return (
       <div>
-        <Navbar color="faded" toggleable>
+        <Navbar color="inverse" inverse toggleable>
           <NavbarToggler right onClick={this.toggle} />
           <NavbarBrand href="/">kaboard</NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar>
