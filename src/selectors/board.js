@@ -5,3 +5,9 @@ export const getUsers = board =>
     ...board.users[id],
     id
   }));
+
+export const getCheckpoints = board =>
+  R.keys(board.checkpoints).map(id => ({
+    ...board.checkpoints[id],
+    id
+  }));
