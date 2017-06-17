@@ -1,3 +1,3 @@
-#hack prague
+# hack prague
 ## yarn install
 ## yarn start
