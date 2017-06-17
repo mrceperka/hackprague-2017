@@ -2,24 +2,21 @@ import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { Link } from "react-router-dom";
-import {
-  firebaseConnect,
-  isLoaded,
-  isEmpty,
-  dataToJS
-} from "react-redux-firebase";
+import { firebaseConnect, dataToJS } from "react-redux-firebase";
+
+import { Container, Row, Col } from "reactstrap";
 
 class Home extends React.Component {
   render() {
     return (
-      <div className="box d-col fb-100">
-        <div className="box d-col ai-c">
-          <div>Kapoard</div>
-          <div>
-            Instant leaderboards for anything.
-            Browse, join, compete!
-          </div>
-        </div>
+      <Container>
+        <Row>
+          Kapoard
+        </Row>
+        <Row>
+          Instant leaderboards for anything.
+          Browse, join, compete!
+        </Row>
         <div className="box js-sa">
           <div className="box">
             <div>
@@ -36,7 +33,7 @@ class Home extends React.Component {
             </Link>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }
