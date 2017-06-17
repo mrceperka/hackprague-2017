@@ -4,13 +4,10 @@ import { compose } from "redux";
 import { Link } from "react-router-dom";
 import { firebaseConnect, dataToJS } from "react-redux-firebase";
 
-import { Layout, Button, Input, Panel } from "react-toolbox";
-
 class Home extends React.Component {
   render() {
     return (
-      <Layout>
-        <Panel>
+      <div>
           <h1>
             Kapoard
           </h1>
@@ -20,16 +17,15 @@ class Home extends React.Component {
           </p>
           <div className="box jc-sa ai-c">
             <div className="box">
-              <Input label="Code" type="text" icon="search" />
+              Input search
             </div>
             <div className="box">
               <Link to="/boards/new">
-                <Button label="Start new" raised />
+                Start new
               </Link>
             </div>
           </div>
-        </Panel>
-      </Layout>
+        </div>
     );
   }
 }
