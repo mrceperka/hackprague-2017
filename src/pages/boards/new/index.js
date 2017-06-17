@@ -41,6 +41,7 @@ class NewBoard extends React.Component {
             <div className="label">Description</div>
             <div>
               <textarea
+                style={{ minHeight: 100 }}
                 className="input"
                 value={this.state.desc}
                 onChange={this.onDescriptionChange}
@@ -196,17 +197,37 @@ class NewBoard extends React.Component {
   };
 
   addBoard = () => {
-    this.props.firebase.push(
-      "/boards",
-      {
-        title: this.state.title,
-        description: this.state.desc,
-        checkpoints: this.state.checkpoints
-      },
-      e => {
-        console.log("success");
-      }
-    );
+    if (this.canAddBoard()) {
+      const ref = this.props.firebase
+        .push("/boards", {
+          title: this.state.title,
+          admin_approve_required: this.state.admin_approval === 1
+            ? true
+            : false,
+          description: this.state.desc,
+          checkpoints: this.state.checkpoints
+        })
+        .then(snapshot => {
+          const id = snapshot.key;
+          const { history } = this.props;
+          history.push("/boards/" + id);
+        });
+    }
+  };
+
+  canAddBoard = () => {
+    if (
+      this.state.type === "checkpoints" &&
+      this.state.checkpoints.length === 0
+    ) {
+      alert("fill checkpoints please");
+      return false;
+    }
+    if (this.state.title === "") {
+      alert("fill title please");
+      return false;
+    }
+    return true;
   };
 }
 

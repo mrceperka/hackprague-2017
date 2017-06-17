@@ -13,28 +13,28 @@ class Home extends React.Component {
   render() {
     return (
       <div className="box d-col fb-100">
-        <div className="box">
-          Kapoard
-          Instant leaderboards for anything.
-          Browse, join, compete!
-        </div>
-        <div className="box js-c">
-          <div className="box ai-c label">
-            Board code
-          </div>
+        <div className="box d-col ai-c">
+          <div>Kapoard</div>
           <div>
-            <input className="input" type="text" />
+            Instant leaderboards for anything.
+            Browse, join, compete!
           </div>
         </div>
-        <div className="spacer" />
-        <div className="box js-c">
-          or
-        </div>
-        <div className="spacer" />
-        <div className="box js-c">
-          <Link to="/boards/new">
-            <div className="button">Create a board</div>
-          </Link>
+        <div className="box js-sa">
+          <div className="box">
+            <div>
+              <input className="input" type="text" />
+
+            </div>
+            <div>
+              <div className="button">🔎</div>
+            </div>
+          </div>
+          <div className="box">
+            <Link to="/boards/new">
+              <div className="button">Start new</div>
+            </Link>
+          </div>
         </div>
       </div>
     );
