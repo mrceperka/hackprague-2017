@@ -58,7 +58,8 @@ module.exports = {
             loader: "style-loader" // creates style nodes from JS strings
           },
           {
-            loader: "css-loader" // translates CSS into CommonJS
+            loader:
+              "css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]" // translates CSS into CommonJS
           }
         ]
       },

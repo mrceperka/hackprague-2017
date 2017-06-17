@@ -3,9 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Root from "./Root";
 
-import "bootstrap/dist/css/bootstrap.css";
-
-//import "./theme/main.less";
+import "./theme/main.less";
 
 const rootEl = document.getElementById("root");
 const render = Component =>

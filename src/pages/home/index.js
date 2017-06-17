@@ -4,36 +4,32 @@ import { compose } from "redux";
 import { Link } from "react-router-dom";
 import { firebaseConnect, dataToJS } from "react-redux-firebase";
 
-import { Container, Row, Col } from "reactstrap";
+import { Layout, Button, Input, Panel } from "react-toolbox";
 
 class Home extends React.Component {
   render() {
     return (
-      <Container>
-        <Row>
-          Kapoard
-        </Row>
-        <Row>
-          Instant leaderboards for anything.
-          Browse, join, compete!
-        </Row>
-        <div className="box js-sa">
-          <div className="box">
-            <div>
-              <input className="input" type="text" />
-
+      <Layout>
+        <Panel>
+          <h1>
+            Kapoard
+          </h1>
+          <p>
+            Instant leaderboards for anything.
+            Browse, join, compete!
+          </p>
+          <div className="box jc-sa ai-c">
+            <div className="box">
+              <Input label="Code" type="text" icon="search" />
             </div>
-            <div>
-              <div className="button">🔎</div>
+            <div className="box">
+              <Link to="/boards/new">
+                <Button label="Start new" raised />
+              </Link>
             </div>
           </div>
-          <div className="box">
-            <Link to="/boards/new">
-              <div className="button">Start new</div>
-            </Link>
-          </div>
-        </div>
-      </Container>
+        </Panel>
+      </Layout>
     );
   }
 }
