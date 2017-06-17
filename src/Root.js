@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Provider } from "react-redux";
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import { NavItem, NavLink } from "reactstrap";
+import { Container } from "reactstrap";
 
 import Home from "./pages/home";
 import Boards from "./pages/boards";
@@ -23,7 +23,7 @@ export default () => {
             <Link to="/">Home</Link>
             <Link to="/boards">Boards</Link>
           </AppHeader>
-          <div>
+          <Container>
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/boards" component={Boards} />
@@ -31,7 +31,7 @@ export default () => {
               <Route exact path="/boards/:id" component={BoardDetail} />
               <Route exact path="/boards/edit/:id" component={EditBoard} />
             </Switch>
-          </div>
+          </Container>
         </div>
       </Router>
     </Provider>
