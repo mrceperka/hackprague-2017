@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { Link } from "react-router-dom";
 import {
   firebaseConnect,
   isLoaded,
@@ -12,6 +13,11 @@ class Home extends React.Component {
   render() {
     return (
       <div className="box d-col fb-100">
+        <div className="box">
+          Kapoard
+          Instant leaderboards for anything.
+          Browse, join, compete!
+        </div>
         <div className="box js-c">
           <div className="box ai-c label">
             Board code
@@ -26,15 +32,13 @@ class Home extends React.Component {
         </div>
         <div className="spacer" />
         <div className="box js-c">
-          <div className="button" onClick={this.addBoard}>Create a board</div>
+          <Link to="/boards/new">
+            <div className="button">Create a board</div>
+          </Link>
         </div>
       </div>
     );
   }
-
-  addBoard = () => {
-    this.props.firebase.push("/boards", { name: "Foo" });
-  };
 }
 
 export default compose(

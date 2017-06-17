@@ -2,6 +2,7 @@ import React from "react";
 import R from "ramda";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { Link } from "react-router-dom";
 import {
   firebaseConnect,
   isLoaded,
@@ -11,11 +12,16 @@ import {
 
 class Boards extends React.Component {
   render() {
-    console.log(this.getBoards());
     return (
       <div className="box d-col fb-100">
         {this.props.boards
-          ? R.map(board => <div>{board.id}</div>, this.getBoards())
+          ? R.map(
+              board =>
+                <div key={board.id}>
+                  <Link to={"/boards/" + board.id}>{board.title}</Link>
+                </div>,
+              this.getBoards()
+            )
           : <div>No boards</div>}
       </div>
     );
