@@ -1,7 +1,7 @@
 import { AppContainer } from "react-hot-loader";
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import Root from "./Root";
 
 import "./theme/main.less";
 
@@ -14,5 +14,5 @@ const render = Component =>
     rootEl
   );
 
-render(App);
-if (module.hot) module.hot.accept("./App", () => render(App));
+render(Root);
+if (module.hot) module.hot.accept("./Root", () => render(Root));
