@@ -11,3 +11,5 @@ export const getCheckpoints = board =>
     ...board.checkpoints[id],
     id
   }));
+
+export const isBasic = board => getCheckpoints(board).length === 0;

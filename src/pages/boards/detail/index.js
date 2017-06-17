@@ -9,9 +9,135 @@ import {
   dataToJS
 } from "react-redux-firebase";
 
-import { getUsers } from "../../../selectors/board";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Input,
+  InputGroupAddon,
+  InputGroup
+} from "reactstrap";
+
+import { getUsers, getCheckpoints, isBasic } from "../../../selectors/board";
 
 class BoardDetail extends React.Component {
+  state = {
+    show_modal: false,
+    show_checkpoint_modal: false,
+    name: "",
+    checkpoint_code: ""
+  };
+
+  handleChange = (name, value) => {
+    this.setState(prevState => ({ ...prevState, [name]: R.trim(value) }));
+  };
+
+  toggleNameModal = () =>
+    this.setState(prev => ({ ...prev, show_modal: !prev.show_modal }));
+
+  toggleCheckpointModal = () =>
+    this.setState(prev => ({
+      ...prev,
+      show_checkpoint_modal: !prev.show_checkpoint_modal
+    }));
+
+  onOnboardClick = () => {
+    if (this.state.name !== "") {
+      const { firebase, match } = this.props;
+      const boardID = match.params.id;
+
+      firebase
+        .ref("/boards/" + boardID + "/users")
+        .orderByChild("name")
+        .equalTo(this.state.name)
+        .once("value")
+        .then(r => {
+          if (r.val() != null) {
+            alert("user already exists!");
+          } else {
+            //save locally
+            localStorage.setItem("name", this.state.name);
+
+            //hide modal
+            this.setState({ show_modal: false });
+
+            //push new user
+            firebase.push(
+              "/boards/" + boardID + "/users",
+              {
+                name: this.state.name,
+                score: 0
+              },
+              () => {
+                alert("added!");
+              }
+            );
+          }
+        });
+    } else {
+      alert("please, state your name");
+    }
+  };
+  onCheckCodeClick = () => {
+    const { board } = this.props;
+    const checkpoints = getCheckpoints(board);
+    const found =
+      R.find(ch => ch.code === this.state.checkpoint_code, checkpoints) != null;
+
+    if (found) {
+      this.updateScore();
+    } else {
+      alert("not found. sorry");
+    }
+  };
+
+  getCurrentBoardUser = () => {
+    const { board } = this.props;
+    const name = localStorage.getItem("name");
+    return R.find(user => user.name === name, getUsers(board));
+  };
+
+  shouldDisplayUserNameDialog = () => {
+    return this.getCurrentBoardUser() == null;
+  };
+
+  updateScore = () => {
+    this.setState({ show_modal: false });
+    this.setState({ show_checkpoint_modal: false });
+    this.setState({ checkpoint_code: "" });
+
+    const { firebase, match, board } = this.props;
+    const id = match.params.id;
+
+    const user = this.getCurrentBoardUser();
+    firebase.push(
+      "/boards/" + id + "/records/" + user.id,
+      {
+        timestamp: +new Date(),
+        score: 1,
+        is_approved: isBasic(board) && board.admin_approve_required
+          ? false
+          : true
+      },
+      () => {
+        alert("added!");
+      }
+    );
+  };
+
+  updateScoreOrShowModal = () => {
+    const { board } = this.props;
+    if (this.shouldDisplayUserNameDialog()) {
+      this.setState({ show_modal: true });
+    } else if (getCheckpoints(board).length > 0) {
+      this.setState({ show_checkpoint_modal: true });
+    } else {
+      this.updateScore();
+    }
+  };
+
   sortByScore = (a, b) => {
     const { board } = this.props;
     return board.sort === "ASC" ? a.score > b.score : a.score < b.score;
@@ -78,6 +204,7 @@ class BoardDetail extends React.Component {
 
   render() {
     const { board } = this.props;
+
     return (
       <div className="box d-col fb-100">
         {isLoaded(board)
@@ -110,7 +237,59 @@ class BoardDetail extends React.Component {
                     : null;
                 })}
               </div>
-              <div />
+
+              <Modal
+                isOpen={this.state.show_modal}
+                toggle={this.toggleNameModal}
+              >
+                <ModalHeader>
+                  How you be calling yourself matey?
+                </ModalHeader>
+                <ModalBody>
+                  <InputGroup>
+                    <InputGroupAddon>name</InputGroupAddon>
+                    <Input
+                      placeholder="Your name"
+                      value={this.state.name}
+                      onChange={e => this.handleChange("name", e.target.value)}
+                    />
+                  </InputGroup>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="primary" onClick={this.onOnboardClick}>
+                    On board!
+                  </Button>
+                </ModalFooter>
+              </Modal>
+
+              <Modal
+                isOpen={this.state.show_checkpoint_modal}
+                toggle={this.toggleCheckpointModal}
+              >
+                <ModalHeader toggle={this.toggleCheckpointModal}>
+                  Please, insert checkpoint code
+                </ModalHeader>
+                <ModalBody>
+                  <InputGroup>
+                    <InputGroupAddon>code</InputGroupAddon>
+                    <Input
+                      placeholder="Checkpoint code"
+                      value={this.state.checkpoint_code}
+                      onChange={e =>
+                        this.handleChange("checkpoint_code", e.target.value)}
+                    />
+                  </InputGroup>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="primary" onClick={this.onCheckCodeClick}>
+                    Check
+                  </Button>
+                </ModalFooter>
+              </Modal>
+
+              <Button color="primary" onClick={this.updateScoreOrShowModal}>
+                Add
+              </Button>
             </div>
           : <div className="loading">Loading...</div>}
       </div>
