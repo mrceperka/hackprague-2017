@@ -12,6 +12,7 @@ import {
 } from "react-redux-firebase";
 
 import { getCheckpoints } from "../../selectors/board";
+
 class Board extends React.Component {
   state = {
     title: "",
@@ -277,14 +278,18 @@ class Board extends React.Component {
   };
 
   addCheckPoint = () => {
+    const { match } = this.props;
+    const boardId = match.params.id;
+    const id = uuid.v4();
     this.setState(prevstate => ({
       ...prevstate,
       checkpoints: [
         ...prevstate.checkpoints,
         {
-          id: uuid.v4(),
+          id,
           title: prevstate.checkpoint.title,
-          score: parseInt(prevstate.checkpoint.score)
+          score: parseInt(prevstate.checkpoint.score),
+          code: R.takeLast(2, boardId) + R.takeLast(3, id)
         }
       ],
       checkpoint: {
