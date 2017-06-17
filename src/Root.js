@@ -23,15 +23,13 @@ export default () => {
             <Link to="/">Home</Link>
             <Link to="/boards">Boards</Link>
           </AppHeader>
-          <Container>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/boards" component={Boards} />
-              <Route exact path="/boards/:id" component={BoardDetail} />
-              <Route exact path="/boards/new" component={NewBoard} />
-              <Route exact path="/boards/edit/:id" component={EditBoard} />
-            </Switch>
-          </Container>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/boards" component={Boards} />
+            <Route exact path="/boards/:id" component={BoardDetail} />
+            <Route exact path="/boards/new" component={NewBoard} />
+            <Route exact path="/boards/edit/:id" component={EditBoard} />
+          </Switch>
         </div>
       </Router>
     </Provider>
