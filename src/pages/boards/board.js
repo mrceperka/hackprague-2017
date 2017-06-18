@@ -102,7 +102,7 @@ class Board extends React.Component {
                     id="title_id"
                     value={this.state.title}
                     onChange={e =>
-                      this.handleStringChange("title", e.target.value, true)}
+                      this.handleStringChange("title", e.target.value)}
                   />
                 </FormGroup>
 
@@ -383,7 +383,7 @@ class Board extends React.Component {
       ...prevState,
       checkpoint: {
         ...prevState.checkpoint,
-        title: R.trim(value)
+        title: value
       }
     }));
   };
@@ -418,7 +418,7 @@ class Board extends React.Component {
           ...prevstate.checkpoints,
           {
             id,
-            title: prevstate.checkpoint.title,
+            title: R.trim(prevstate.checkpoint.title),
             score: parseInt(prevstate.checkpoint.score),
             code: shortid.generate()
           }

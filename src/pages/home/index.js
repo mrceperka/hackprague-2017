@@ -2,7 +2,8 @@ import R from "ramda";
 import React from "react";
 import { compose } from "redux";
 import { Link } from "react-router-dom";
-import { firebaseConnect } from "react-redux-firebase";
+import { firebaseConnect, dataToJS, isEmpty } from "react-redux-firebase";
+import { connect } from "react-redux";
 import {
   Form,
   FormGroup,
@@ -17,11 +18,17 @@ import {
 } from "reactstrap";
 
 import AppHeader from "../../components/AppHeader";
+import Leaderboard from "../../components/Leaderboard";
 
 class Home extends React.Component {
   state = {
-    code: ""
+    code: "",
+    boards: []
   };
+
+  componentWillReceiveProps(nextProps) {
+    this.fetchTrendingBoard(nextProps);
+  }
 
   findByCode = () => {
     const { firebase, history } = this.props;
@@ -43,6 +50,22 @@ class Home extends React.Component {
           });
         }
       });
+  };
+
+  fetchTrendingBoard = ({ trending, firebase }) => {
+    if (isEmpty(trending) === false) {
+      const ids = R.keys(trending);
+      R.forEach(id => {
+        firebase.ref("/boards/" + id).once("value").then(r => {
+          const board = r.val();
+
+          this.setState(prevState => ({
+            ...prevState,
+            boards: [...prevState.boards, { ...board, id }]
+          }));
+        });
+      }, ids);
+    }
   };
 
   handleAnyChange = (name, value) => {
@@ -113,9 +136,23 @@ class Home extends React.Component {
             </Row>
           </Container>
         </Jumbotron>
+        <Row>
+          <Col xs={12}>Trending</Col>
+
+          {R.map(board => <Leaderboard users={[]} board={board} />)}
+        </Row>
       </div>
     );
   }
 }
 
-export default compose(firebaseConnect())(Home);
+export default compose(
+  firebaseConnect(props => {
+    return ["/trending"];
+  }),
+  connect(({ firebase }, props) => {
+    return {
+      trending: dataToJS(firebase, "/trending")
+    };
+  })
+)(Home);
