@@ -23,6 +23,11 @@ import {
   InputGroup
 } from "reactstrap";
 
+import { ShareButtons, ShareCounts, generateShareIcon } from "react-share";
+
+const { FacebookShareButton } = ShareButtons;
+const FacebookIcon = generateShareIcon("facebook");
+
 import AppHeader from "../../../components/AppHeader";
 import PageTitle from "../../../components/PageTitle";
 
@@ -191,6 +196,12 @@ class BoardDetail extends React.Component {
             <Col>
               <img style={{ width: 100 }} src="/static/trophy.svg" />
               {board.description}
+              <FacebookShareButton
+                url={window.location.href}
+                title={board.title}
+              >
+                <FacebookIcon size={32} round />
+              </FacebookShareButton>
             </Col>
           </Row>
 
