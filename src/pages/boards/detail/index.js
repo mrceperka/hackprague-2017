@@ -162,100 +162,109 @@ class BoardDetail extends React.Component {
 
   render = () => {
     const { board } = this.props;
+    return isLoaded()
+      ? isEmpty() ? this.renderEmpty() : this.renderLeaderBoard(board)
+      : this.renderWaiting();
+  };
+
+  renderEmpty = () => {
+    return <div className="loading">No participants yet...</div>;
+  };
+
+  renderWaiting = () => {
+    return <div className="loading">Loading...</div>;
+  };
+
+  renderLeaderBoard = board => {
     let topThree = this.getTopThree();
 
     return (
       <div>
         <AppHeader />
-        {isLoaded(board)
-          ? <Container>
-              <div className="box">
-                <div>
-                  <img style={{ width: 100 }} src="/static/trophy.svg" />
-                </div>
-                <div className="box ai-c" style={{ overflow: "auto" }}>
-                  {board.description}
-                </div>
-              </div>
-              <div>
-                <TopThree
-                  first={topThree[0]}
-                  second={topThree[1]}
-                  third={topThree[2]}
+        <Container>
+          <div className="box">
+            <div>
+              <img style={{ width: 100 }} src="/static/trophy.svg" />
+            </div>
+            <div className="box ai-c" style={{ overflow: "auto" }}>
+              {board.description}
+            </div>
+          </div>
+          <div>
+            <TopThree
+              first={topThree[0]}
+              second={topThree[1]}
+              third={topThree[2]}
+            />
+          </div>
+          <div className="box d-col">
+            {this.getSorted().map((user, i) => {
+              return i > 2
+                ? <div key={i} className="box">
+                    <div>
+                      {i}.
+                    </div>
+                    <div>
+                      {user.name}
+                    </div>
+                    <div>
+                      {user.score}
+                    </div>
+                  </div>
+                : null;
+            })}
+          </div>
+
+          <Modal isOpen={this.state.show_modal} toggle={this.toggleNameModal}>
+            <ModalHeader>
+              How you be calling yourself matey?
+            </ModalHeader>
+            <ModalBody>
+              <InputGroup>
+                <InputGroupAddon>name</InputGroupAddon>
+                <Input
+                  placeholder="Your name"
+                  value={this.state.name}
+                  onChange={e => this.handleChange("name", e.target.value)}
                 />
-              </div>
-              <div className="box d-col">
-                {this.getSorted().map((user, i) => {
-                  return i > 2
-                    ? <div key={i} className="box">
-                        <div>
-                          {i}.
-                        </div>
-                        <div>
-                          {user.name}
-                        </div>
-                        <div>
-                          {user.score}
-                        </div>
-                      </div>
-                    : null;
-                })}
-              </div>
-
-              <Modal
-                isOpen={this.state.show_modal}
-                toggle={this.toggleNameModal}
-              >
-                <ModalHeader>
-                  How you be calling yourself matey?
-                </ModalHeader>
-                <ModalBody>
-                  <InputGroup>
-                    <InputGroupAddon>name</InputGroupAddon>
-                    <Input
-                      placeholder="Your name"
-                      value={this.state.name}
-                      onChange={e => this.handleChange("name", e.target.value)}
-                    />
-                  </InputGroup>
-                </ModalBody>
-                <ModalFooter>
-                  <Button color="primary" onClick={this.onOnboardClick}>
-                    On board!
-                  </Button>
-                </ModalFooter>
-              </Modal>
-
-              <Modal
-                isOpen={this.state.show_checkpoint_modal}
-                toggle={this.toggleCheckpointModal}
-              >
-                <ModalHeader toggle={this.toggleCheckpointModal}>
-                  Please, insert checkpoint code
-                </ModalHeader>
-                <ModalBody>
-                  <InputGroup>
-                    <InputGroupAddon>code</InputGroupAddon>
-                    <Input
-                      placeholder="Checkpoint code"
-                      value={this.state.checkpoint_code}
-                      onChange={e =>
-                        this.handleChange("checkpoint_code", e.target.value)}
-                    />
-                  </InputGroup>
-                </ModalBody>
-                <ModalFooter>
-                  <Button color="primary" onClick={this.onCheckCodeClick}>
-                    Check
-                  </Button>
-                </ModalFooter>
-              </Modal>
-
-              <Button color="primary" onClick={this.updateScoreOrShowModal}>
-                Add
+              </InputGroup>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.onOnboardClick}>
+                On board!
               </Button>
-            </Container>
-          : <div className="loading">Loading...</div>}
+            </ModalFooter>
+          </Modal>
+
+          <Modal
+            isOpen={this.state.show_checkpoint_modal}
+            toggle={this.toggleCheckpointModal}
+          >
+            <ModalHeader toggle={this.toggleCheckpointModal}>
+              Please, insert checkpoint code
+            </ModalHeader>
+            <ModalBody>
+              <InputGroup>
+                <InputGroupAddon>code</InputGroupAddon>
+                <Input
+                  placeholder="Checkpoint code"
+                  value={this.state.checkpoint_code}
+                  onChange={e =>
+                    this.handleChange("checkpoint_code", e.target.value)}
+                />
+              </InputGroup>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.onCheckCodeClick}>
+                Check
+              </Button>
+            </ModalFooter>
+          </Modal>
+
+          <Button color="primary" onClick={this.updateScoreOrShowModal}>
+            Add
+          </Button>
+        </Container>
       </div>
     );
   };
