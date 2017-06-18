@@ -43,6 +43,7 @@ function Leaderboard({ users, board, firebase, inCard }) {
         second={topThree[1]}
         third={topThree[2]}
         units={board.units}
+        inCard={inCard}
       />
       <ListGroup>
         {users.map((user, i) => {
@@ -127,7 +128,7 @@ function LeaderboardHeaderWithLink({ board }) {
   );
 }
 
-function TopThree({ first, second, third, units, firebase, board }) {
+function TopThree({ first, second, third, units, firebase, board, inCard }) {
   if (first) {
     // MUTATION
     getUserCheckpointCodes({ firebase, user: first, board });
@@ -150,6 +151,7 @@ function TopThree({ first, second, third, units, firebase, board }) {
               pos={2}
               user={second}
               units={units}
+              inCard={inCard}
               src="/static/silver-star.svg"
             />}
 
@@ -159,6 +161,7 @@ function TopThree({ first, second, third, units, firebase, board }) {
               pos={1}
               user={first}
               units={units}
+              inCard={inCard}
               src="/static/gold-star.svg"
             />}
 
@@ -168,6 +171,7 @@ function TopThree({ first, second, third, units, firebase, board }) {
               pos={3}
               user={third}
               units={units}
+              inCard={inCard}
               src="/static/bronze-star.svg"
             />}
         </Row>
@@ -176,14 +180,14 @@ function TopThree({ first, second, third, units, firebase, board }) {
   );
 }
 
-function TopItem({ user, src, pos, units, board }) {
+function TopItem({ user, src, pos, units, board, inCard }) {
   const boardCheckpointIds = getCheckpointsCodes(board);
   return (
     <Col xs={4} className={"text-center top-item top-item" + pos}>
-      <img style={{ width: 100 }} src={src} />
+      <img src={src} />
       <h4>{user.name}</h4>
       <p>
-        {isBasic(board)
+        {isBasic(board) || inCard
           ? <span>{user.score} {units}</span>
           : <span>
               {
