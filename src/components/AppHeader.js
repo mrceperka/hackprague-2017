@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import {
   Collapse,
   Container,
@@ -8,7 +8,6 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   Button,
   Modal,
   ModalBody,
@@ -51,7 +50,9 @@ class AppHeader extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <HeaderLink to="/">Home</HeaderLink>
-                <HeaderLink to="/boards">Boards</HeaderLink>
+                <HeaderLink to="/boards">
+                  Boards
+                </HeaderLink>
               </Nav>
             </Collapse>
           </Container>
@@ -64,7 +65,9 @@ class AppHeader extends Component {
 function HeaderLink(props) {
   return (
     <NavItem>
-      <Link to={props.to} className="nav-link">{props.children}</Link>
+      <NavLink to={props.to} className="nav-link" activeClassName="active">
+        {props.children}
+      </NavLink>
     </NavItem>
   );
 }

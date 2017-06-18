@@ -10,19 +10,49 @@ import {
   dataToJS
 } from "react-redux-firebase";
 
+import {
+  Container,
+  ListGroup,
+  ListGroupItem,
+  ListGroupItemHeading,
+  ListGroupItemText,
+  Badge
+} from "reactstrap";
+import AppHeader from "../../components/AppHeader";
+import PageTitle from "../../components/PageTitle";
+
 class Boards extends React.Component {
+  renderEmpty = () => <div>It looks that we are out of boards...</div>;
+  renderWaiting = () => <div>Loading</div>;
+  renderLeaderBoard = () =>
+    <ListGroup>
+      {R.map(
+        board =>
+          <ListGroupItem className="justify-content-between" key={board.id}>
+            <ListGroupItemHeading>
+              <Link to={"/boards/" + board.public_code}>
+                {board.title}
+              </Link>
+            </ListGroupItemHeading>
+            <ListGroupItemText>
+              {board.description}
+            </ListGroupItemText>
+          </ListGroupItem>,
+        this.getBoards()
+      )}
+    </ListGroup>;
   render() {
+    const { boards } = this.props;
+
     return (
-      <div className="box d-col fb-100">
-        {this.props.boards
-          ? R.map(
-              board =>
-                <div key={board.id}>
-                  <Link to={"/boards/" + board.public_code}>{board.title}</Link>
-                </div>,
-              this.getBoards()
-            )
-          : <div>No boards</div>}
+      <div>
+        <AppHeader />
+        <Container>
+          <PageTitle>Boards</PageTitle>
+          {isLoaded(boards)
+            ? isEmpty(boards) ? this.renderEmpty() : this.renderLeaderBoard()
+            : this.renderWaiting()}
+        </Container>
       </div>
     );
   }

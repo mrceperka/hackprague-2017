@@ -56,8 +56,8 @@ class BoardDetail extends React.Component {
 
   onOnboardClick = () => {
     if (this.state.name !== "") {
-      const { firebase, match } = this.props;
-      const boardID = match.params.id;
+      const { firebase, match, board } = this.props;
+      const boardID = board.id;
 
       firebase
         .ref("/boards/" + boardID + "/users")
@@ -121,11 +121,11 @@ class BoardDetail extends React.Component {
     this.setState({ checkpoint_code: "" });
 
     const { firebase, match, board } = this.props;
-    const id = match.params.id;
+    const boardID = board.id;
 
     const user = this.getCurrentBoardUser();
     firebase.push(
-      "/boards/" + id + "/records/" + user.id,
+      "/boards/" + boardID + "/records/" + user.id,
       {
         timestamp: +new Date(),
         score: 1,
@@ -332,7 +332,7 @@ export default compose(
     const boards = dataToJS(firebase, "boards");
     const id = R.keys(dataToJS(firebase, "boards"))[0];
     return {
-      board: boards ? boards[id] : null
+      board: boards ? { ...boards[id], id } : null
     };
   })
 )(BoardDetail);
