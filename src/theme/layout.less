@@ -1,17 +1,27 @@
 
-.container.leaderboard-detail {
-  padding: 0;
+.container {
+  &.leaderboard-detail, &.trending {
+    padding: 0;
+  }
 }
 
 @media (max-width: 767px) {
-  .container.leaderboard-detail {
-    width: 100%;
+  .container {
+    &.leaderboard-detail, &.trending {
+      width: 100%;
+    }
   }
 }
 
 @media (min-width: 768px) {
-  .container.leaderboard-detail {
-    width: 768px;
+  .container {
+    &.leaderboard-detail {
+      width: 768px;
+    }
+
+    &.trending {
+      padding: 0 20px;
+    }
   }
 }
 
