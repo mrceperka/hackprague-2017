@@ -10,13 +10,16 @@ function Leaderboard({ users, board }) {
       <div
         className="top"
         style={{ backgroundImage: "url(" + board.img + ")" }}
-      />
-      <h3>
-        {board.title}
-      </h3>
-      <p>
-        {board.description}
-      </p>
+      >
+        <div className="overlay">
+          <h3>
+            {board.title}
+          </h3>
+          <p>
+            {board.description}
+          </p>
+        </div>
+      </div>
       <TopThree
         first={topThree[0]}
         second={topThree[1]}
