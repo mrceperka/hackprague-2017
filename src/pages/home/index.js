@@ -161,6 +161,7 @@ class Home extends React.Component {
               return (
                 <Col key={i} xs={12} md={3}>
                   <Leaderboard
+                    firebase={this.props.firebase}
                     users={R.take(
                       3,
                       R.sort(

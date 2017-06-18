@@ -39,7 +39,8 @@ class BoardDetail extends React.Component {
     show_modal: false,
     show_checkpoint_modal: false,
     name: "",
-    checkpoint_code: ""
+    checkpoint_code: "",
+    checkpoint: null
   };
 
   handleChange = (name, value) => {
@@ -96,11 +97,18 @@ class BoardDetail extends React.Component {
   onCheckCodeClick = () => {
     const { board } = this.props;
     const checkpoints = getCheckpoints(board);
-    const found =
-      R.find(ch => ch.code === this.state.checkpoint_code, checkpoints) != null;
+    const found = R.find(
+      ch => ch.code === this.state.checkpoint_code,
+      checkpoints
+    );
 
-    if (found) {
-      this.updateScore();
+    if (found != null) {
+      this.setState(
+        {
+          checkpoint: found
+        },
+        () => this.updateScore()
+      );
     } else {
       window.toastr.warning("Code was not found.");
     }
@@ -130,9 +138,11 @@ class BoardDetail extends React.Component {
     const boardID = board.id;
 
     const user = this.getCurrentBoardUser();
+    console.log(this.state.checkpoint.id);
     firebase.push(
       "/boards/" + boardID + "/records/" + user.id,
       {
+        checkpoint_id: this.state.checkpoint ? this.state.checkpoint.id : null,
         timestamp: +new Date(),
         score: 1,
         is_approved: isBasic(board) && board.admin_approve_required
@@ -202,7 +212,7 @@ class BoardDetail extends React.Component {
           <Leaderboard
             users={this.getSorted()}
             board={board}
-            updateScoreOrShowModal={this.updateScoreOrShowModal}
+            firebase={this.props.firebase}
           />
 
           <Modal isOpen={this.state.show_modal} toggle={this.toggleNameModal}>
