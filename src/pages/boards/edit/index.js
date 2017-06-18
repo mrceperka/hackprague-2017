@@ -8,10 +8,17 @@ import {
   dataToJS
 } from "react-redux-firebase";
 
+import { Row, Col } from "reactstrap";
+
 import Board from "../board";
+import Loading from "../../../components/Loading";
 
 const Edit = ({ board, ...rest }) =>
-  isLoaded(board) ? <Board board={board} {...rest} /> : <div>Loading</div>;
+  isLoaded(board)
+    ? isEmpty(board)
+      ? <div>Board does not exist</div>
+      : <Board board={board} {...rest} />
+    : <Loading />;
 
 export default compose(
   firebaseConnect(["/boards"]),

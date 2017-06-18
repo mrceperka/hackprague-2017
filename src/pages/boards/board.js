@@ -461,20 +461,28 @@ class Board extends React.Component {
     });
   };
 
-  boardToApi = () => ({
-    title: this.state.title,
-    is_discoverable: this.state.is_discoverable,
-    admin_approve_required: this.state.admin_approval,
-    description: this.state.desc,
-    checkpoints: this.state.type === "checkpoints"
-      ? this.state.checkpoints
-      : [],
-    units: this.state.units,
-    email: this.state.email,
-    public_code: shortid.generate(),
-    admin_code: shortid.generate(),
-    img: this.state.img
-  });
+  boardToApi = () => {
+    let data = {
+      title: this.state.title,
+      is_discoverable: this.state.is_discoverable,
+      admin_approve_required: this.state.admin_approval,
+      description: this.state.desc,
+      checkpoints: this.state.type === "checkpoints"
+        ? this.state.checkpoints
+        : [],
+      units: this.state.units,
+      email: this.state.email,
+
+      img: this.state.img
+    };
+
+    if (this.isEdit() === false) {
+      data.public_code = shortid.generate();
+      data.admin_code = shortid.generate();
+    }
+
+    return data;
+  };
 
   updateBoard = () => {
     if (this.isBoardValid()) {

@@ -18,3 +18,26 @@ body {
 .spacer7 {
   padding: 7px 0;
 }
+
+.loading {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 40px;
+  font-weight: lighter;
+  color: @dark;
+  //background-color: @dark;
+  animation: colorTrans 1s linear;
+}
+
+@keyframes colorTrans {
+  0% {
+    background-color: @dark;
+  }
+  100% {
+    background-color: @light;
+  }
+}

@@ -16,14 +16,16 @@ import {
   ListGroupItem,
   ListGroupItemHeading,
   ListGroupItemText,
-  Badge
+  Badge,
+  Row,
+  Col
 } from "reactstrap";
 import AppHeader from "../../components/AppHeader";
 import PageTitle from "../../components/PageTitle";
 
 class Boards extends React.Component {
   renderEmpty = () => <div>It looks that we are out of boards...</div>;
-  renderWaiting = () => <div>Loading</div>;
+  renderWaiting = () => <Row><Col>Loading</Col></Row>;
   renderLeaderBoard = () =>
     <ListGroup>
       {R.map(

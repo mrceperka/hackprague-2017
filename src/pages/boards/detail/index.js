@@ -175,7 +175,9 @@ class BoardDetail extends React.Component {
   };
 
   renderEmpty = () => {
-    return <div className="loading">No participants yet...</div>;
+    return (
+      <Row className="loading"><Col xs={12}>No participants yet...</Col></Row>
+    );
   };
 
   renderWaiting = () => {
