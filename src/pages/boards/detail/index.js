@@ -198,17 +198,12 @@ class BoardDetail extends React.Component {
     return (
       <div>
         <AppHeader />
-        <Container className="body">
-
-          <Row>
-            <Col xs={12} md={{ size: 8, offset: 2 }}>
-              <Leaderboard
-                users={this.getSorted()}
-                board={board}
-                updateScoreOrShowModal={this.updateScoreOrShowModal}
-              />
-            </Col>
-          </Row>
+        <Container className="leaderboard-detail">
+          <Leaderboard
+            users={this.getSorted()}
+            board={board}
+            updateScoreOrShowModal={this.updateScoreOrShowModal}
+          />
 
           <Modal isOpen={this.state.show_modal} toggle={this.toggleNameModal}>
             <ModalHeader>

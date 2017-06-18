@@ -6,37 +6,13 @@ function Leaderboard({ users, board, updateScoreOrShowModal }) {
   const topThree = R.take(3, users);
   return (
     <div className="leaderboard">
-      <div
-        className="top"
-        style={{ backgroundImage: "url(" + board.img + ")" }}
-      >
-        <div className="overlay">
-          <h3>
-            {board.title}
-          </h3>
-          <p>
-            {board.description}
-          </p>
-        </div>
-      </div>
+      <LeaderboardHeader board={board} />
       <TopThree
         first={topThree[0]}
         second={topThree[1]}
         third={topThree[2]}
         units={board.units}
       />
-      {users.length > 10 &&
-        <Row>
-          <Col xs={12}>
-            <Button
-              className="btn-block"
-              color="primary"
-              onClick={updateScoreOrShowModal}
-            >
-              Add
-            </Button>
-          </Col>
-        </Row>}
       <ListGroup>
         {users.map((user, i) => {
           return i > 2
@@ -67,10 +43,30 @@ function Leaderboard({ users, board, updateScoreOrShowModal }) {
   );
 }
 
+export function LeaderboardHeader({ board }) {
+  let imageUrl = board.img.length > 0 ? board.img : "/static/trophy.svg";
+  let empty = board.img.length === 0 ? " empty" : "";
+  return (
+    <div
+      className={"top" + empty}
+      style={{ backgroundImage: "url(" + imageUrl + ")" }}
+    >
+      <div className="overlay">
+        <h3>
+          {board.title}
+        </h3>
+        <p>
+          {board.description}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function TopThree({ first, second, third, units }) {
   return (
     <Row>
-      <Col xs={12}>
+      <Col xs={12} lg={{ size: 10, offset: 1 }}>
         <Row>
           {second &&
             <TopItem
@@ -103,10 +99,13 @@ function TopThree({ first, second, third, units }) {
 
 function TopItem({ user, src, pos, units }) {
   return (
-    <Col xs={12} sm={4} className="top-item text-center">
+    <Col xs={4} className={"text-center top-item top-item" + pos}>
       <img style={{ width: 100 }} src={src} />
       <h4>{user.name}</h4>
       <p>{user.score} {units}</p>
+      <div className={"pod pod" + pos}>
+        {pos}
+      </div>
     </Col>
   );
 }

@@ -4,6 +4,11 @@
     border-top-right-radius: 5px;
 }
 
+.no-top-radius {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
 .leaderboard {
     background: @white;
     border: 1px solid @border;
@@ -12,11 +17,15 @@
 
     .top {
         .top-radius;
-        margin: 0;
+        margin-bottom: 20px;
         background-size: 100%;
         background-position: center center;
         background-repeat: no-repeat;
         background-color: @dark;
+
+        &.empty {
+            background-size: 39%;
+        }
 
         .overlay {
             .top-radius;
@@ -35,9 +44,59 @@
     }
 
     .top-item {
+        position: relative;
+        top: 20px;
+        padding-left: 0;
+        padding-right: 0;
+        &:first-child {
+            padding-left: 15px;
+        }
+        &:last-child {
+            padding-right: 15px;
+        }
+
+        &.top-item1 {
+            top: 0;
+        }
+
         img {
             display: block;
             margin: auto;
+        }
+
+        .pod {
+            width: 100%;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            background: @dark;
+            color: @light;
+
+            &.pod1 {
+                height: 60px;
+            }
+        }
+    }
+
+    .list-group-item {
+        border-left: 0;
+        border-top: 0;
+        border-right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .leaderboard {
+        border: 0;
+        border-radius: 0;
+
+        .top {
+            .no-top-radius;
+            .overlay {
+                .no-top-radius;
+                padding-top: 150px;
+            }
         }
     }
 }
