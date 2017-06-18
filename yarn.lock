@@ -4530,6 +4530,10 @@ spdx-license-ids@^1.0.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-1.2.2.tgz#c9df7a3424594ade6bd11900d596696dc06bac57"
 
+spdx-license-ids@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-2.0.1.tgz#02017bcc3534ee4ffef6d58d20e7d3e9a1c3c8ec"
+
 spdy-transport@^2.0.15:
   version "2.0.18"
   resolved "https://registry.yarnpkg.com/spdy-transport/-/spdy-transport-2.0.18.tgz#43fc9c56be2cccc12bb3e2754aa971154e836ea6"
