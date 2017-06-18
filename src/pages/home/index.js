@@ -36,7 +36,11 @@ class Home extends React.Component {
 
         if (boards) {
           const boardKey = R.pipe(R.keys, R.take(1))(boards);
-          history.push("/boards/" + boardKey);
+          history.push("/boards/" + boards[boardKey].public_code);
+        } else {
+          window.toastr.warning("Sadly, we dont't have that board", "", {
+            timeOut: 1000
+          });
         }
       });
   };
