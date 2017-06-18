@@ -4,19 +4,24 @@
     border-top-right-radius: 5px;
 }
 
-.no-top-radius {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
 .leaderboard {
     background: @white;
     border: 1px solid @border;
+    border-top: 0;
     padding: 0;
-    border-radius: 5px;
+
+    &.in-card {
+        border-radius: 5px;
+        .top {
+            .top-radius;
+            .overlay {
+                .top-radius;
+                padding-top: 70px;
+            }
+        }
+    }
 
     .top {
-        .top-radius;
         margin-bottom: 20px;
         background-size: 100%;
         background-position: center center;
@@ -28,7 +33,6 @@
         }
 
         .overlay {
-            .top-radius;
             padding: 200px 20px 20px;
             background-color: @blackOverlay;
             color: @light;
@@ -79,22 +83,21 @@
         }
     }
 
-    .list-group-item {
-        border-left: 0;
-        border-top: 0;
-        border-right: 0;
+    ul.list-group {
+        margin-top: 20px;
+        .list-group-item {
+            border-bottom: 1px solid @border;
+        }
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .leaderboard {
         border: 0;
         border-radius: 0;
 
         .top {
-            .no-top-radius;
             .overlay {
-                .no-top-radius;
                 padding-top: 150px;
             }
         }
