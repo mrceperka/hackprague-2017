@@ -49,7 +49,6 @@ class AppHeader extends Component {
 
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
-                <HeaderLink to="/">Home</HeaderLink>
                 <HeaderLink to="/boards">
                   Boards
                 </HeaderLink>

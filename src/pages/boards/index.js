@@ -32,7 +32,13 @@ class Boards extends React.Component {
         board =>
           <ListGroupItem className="justify-content-between" key={board.id}>
             <ListGroupItemHeading>
-              <Link to={"/boards/" + board.public_code}>
+              <Link
+                to={
+                  this.props.isAdmin === true
+                    ? "/boards/edit/" + board.id
+                    : "/boards/" + board.public_code
+                }
+              >
                 {board.title}
               </Link>
             </ListGroupItemHeading>

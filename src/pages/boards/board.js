@@ -224,6 +224,7 @@ class Board extends React.Component {
                             key={i}
                           >
                             <div>{item.title}</div>
+                            <div>{item.code}</div>
                             <Badge pill>{item.score}</Badge>
                             <div
                               className="text-danger"

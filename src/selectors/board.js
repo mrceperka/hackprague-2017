@@ -13,3 +13,5 @@ export const getCheckpoints = board =>
   }));
 
 export const isBasic = board => getCheckpoints(board).length === 0;
+export const getCheckpointsCodes = board =>
+  R.map(chp => chp.id, getCheckpoints(board));
