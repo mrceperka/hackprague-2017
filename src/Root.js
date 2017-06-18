@@ -20,7 +20,7 @@ export default () => {
       <Router>
         <div>
           <AppHeader>
-            <Link to="/">Home</Link>
+            {/*<Link to="/">Home</Link>*/}
             <Link to="/boards">Boards</Link>
           </AppHeader>
           <Switch>

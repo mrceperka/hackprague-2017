@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
   Collapse,
   Container,
@@ -43,10 +44,13 @@ class AppHeader extends Component {
         <Navbar color="inverse" inverse toggleable>
           <Container>
             <NavbarToggler right onClick={this.toggle} />
-            <NavbarBrand href="/">kaboard</NavbarBrand>
+            <Link className="navbar-brand" to="/">
+              <NavbarBrand>kaboard</NavbarBrand>
+            </Link>
+
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
-                {this.props.children.map((item, i) => {
+                {React.Children.map(this.props.children, (item, i) => {
                   return (
                     <NavItem key={i}>
                       {React.cloneElement(item, { className: "nav-link" })}
