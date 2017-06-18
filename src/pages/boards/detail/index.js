@@ -144,7 +144,7 @@ class BoardDetail extends React.Component {
       {
         checkpoint_id: this.state.checkpoint ? this.state.checkpoint.id : null,
         timestamp: +new Date(),
-        score: 1,
+        score: this.state.checkpoint ? this.state.checkpoint.score : 1,
         is_approved: isBasic(board) && board.admin_approve_required
           ? false
           : true
