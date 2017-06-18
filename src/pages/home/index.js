@@ -16,6 +16,8 @@ import {
   Col
 } from "reactstrap";
 
+import AppHeader from "../../components/AppHeader";
+
 class Home extends React.Component {
   state = {
     code: ""
@@ -48,56 +50,59 @@ class Home extends React.Component {
 
   render() {
     return (
-      <Jumbotron>
-        <Container>
-          <Row>
-            <Col className="text-center bottom-margin">
-              <h1>
-                Instant leaderboards in 60 seconds or less.
-              </h1>
-              <p className="lead">
-                Browse, join, create, compete!
-              </p>
-            </Col>
-          </Row>
+      <div className="main-header">
+        <AppHeader />
+        <Jumbotron>
+          <Container>
+            <Row>
+              <Col className="text-center bottom-margin">
+                <h1 className="display-4">
+                  Instant leaderboards in 60 seconds or less.
+                </h1>
+                <p className="lead">
+                  Browse, join, create, compete!
+                </p>
+              </Col>
+            </Row>
 
-          <Row>
-            <Col className="text-center">
-              <Form inline>
-                <FormGroup>
-                  <InputGroup size="lg">
-                    <InputGroupAddon>#</InputGroupAddon>
-                    <Input
-                      type="text"
-                      value={this.state.code}
-                      placeholder="Enter code"
-                      onChange={e =>
-                        this.handleAnyChange("code", e.target.value)}
-                    />
-                  </InputGroup>
-                  <Button size="lg" onClick={this.findByCode} color="primary">
-                    Go
+            <Row>
+              <Col className="text-center">
+                <Form inline>
+                  <FormGroup>
+                    <InputGroup size="lg">
+                      <InputGroupAddon>#</InputGroupAddon>
+                      <Input
+                        type="text"
+                        value={this.state.code}
+                        placeholder="Enter code"
+                        onChange={e =>
+                          this.handleAnyChange("code", e.target.value)}
+                      />
+                    </InputGroup>
+                    <Button size="lg" onClick={this.findByCode} color="primary">
+                      Go
+                    </Button>
+                  </FormGroup>
+                </Form>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="text-center or lead">
+                or
+              </Col>
+            </Row>
+            <Row>
+              <Col className="text-center">
+                <Link to="/boards/new">
+                  <Button size="lg" color="success">
+                    Create new leaderboard
                   </Button>
-                </FormGroup>
-              </Form>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="text-center or lead">
-              or
-            </Col>
-          </Row>
-          <Row>
-            <Col className="text-center">
-              <Link to="/boards/new">
-                <Button size="lg" color="success">
-                  Create new leaderboard
-                </Button>
-              </Link>
-            </Col>
-          </Row>
-        </Container>
-      </Jumbotron>
+                </Link>
+              </Col>
+            </Row>
+          </Container>
+        </Jumbotron>
+      </div>
     );
   }
 }
