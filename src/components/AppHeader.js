@@ -15,7 +15,6 @@ import {
   ModalFooter,
   ModalHeader
 } from "reactstrap";
-import { Link } from "react-router-dom";
 
 class AppHeader extends Component {
   constructor(props) {
