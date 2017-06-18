@@ -15,6 +15,7 @@ import {
   ModalFooter,
   ModalHeader
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 class AppHeader extends Component {
   constructor(props) {
@@ -50,13 +51,8 @@ class AppHeader extends Component {
 
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
-                {React.Children.map(this.props.children, (item, i) => {
-                  return (
-                    <NavItem key={i}>
-                      {React.cloneElement(item, { className: "nav-link" })}
-                    </NavItem>
-                  );
-                })}
+                <HeaderLink to="/">Home</HeaderLink>
+                <HeaderLink to="/boards">Boards</HeaderLink>
               </Nav>
             </Collapse>
           </Container>
@@ -64,6 +60,14 @@ class AppHeader extends Component {
       </div>
     );
   }
+}
+
+function HeaderLink(props) {
+  return (
+    <NavItem>
+      <Link to={props.to} className="nav-link">{props.children}</Link>
+    </NavItem>
+  );
 }
 
 export default AppHeader;
