@@ -10,6 +10,9 @@ import {
 } from "react-redux-firebase";
 
 import {
+  Col,
+  Row,
+  Container,
   Button,
   Modal,
   ModalHeader,
@@ -19,6 +22,8 @@ import {
   InputGroupAddon,
   InputGroup
 } from "reactstrap";
+
+import AppHeader from "../../../components/AppHeader";
 
 import { getUsers, getCheckpoints, isBasic } from "../../../selectors/board";
 
@@ -155,61 +160,15 @@ class BoardDetail extends React.Component {
     return top(board);
   };
 
-  renderTopItem({ user, src, pos }) {
-    return (
-      <div
-        className="box d-col ai-c"
-        style={{ paddingTop: pos !== 1 ? 10 : 0 }}
-      >
-        <div className="box">
-          <img style={{ width: 100 }} src={src} />
-        </div>
-        <div className="box d-col jc-c ai-c">
-          <div>{pos}.</div>
-          <div>{user.name}</div>
-          <div>{user.score}</div>
-        </div>
-      </div>
-    );
-  }
-
-  renderTop3() {
-    const top3 = this.getTopThree();
-    const first = top3[0];
-    const second = top3[1];
-    const third = top3[2];
-
-    return (
-      <div className="box">
-        {second &&
-          this.renderTopItem({
-            pos: 2,
-            user: second,
-            src: "/static/silver-star.svg"
-          })}
-        {first &&
-          this.renderTopItem({
-            pos: 1,
-            user: first,
-            src: "/static/gold-star.svg"
-          })}
-        {third &&
-          this.renderTopItem({
-            pos: 3,
-            user: third,
-            src: "/static/bronze-star.svg"
-          })}
-      </div>
-    );
-  }
-
-  render() {
+  render = () => {
     const { board } = this.props;
+    let topThree = this.getTopThree();
 
     return (
-      <div className="box d-col fb-100">
+      <div>
+        <AppHeader />
         {isLoaded(board)
-          ? <div className="box d-col">
+          ? <Container>
               <div className="box">
                 <div>
                   <img style={{ width: 100 }} src="/static/trophy.svg" />
@@ -219,7 +178,11 @@ class BoardDetail extends React.Component {
                 </div>
               </div>
               <div>
-                {this.renderTop3()}
+                <TopThree
+                  first={topThree[0]}
+                  second={topThree[1]}
+                  third={topThree[2]}
+                />
               </div>
               <div className="box d-col">
                 {this.getSorted().map((user, i) => {
@@ -291,11 +254,41 @@ class BoardDetail extends React.Component {
               <Button color="primary" onClick={this.updateScoreOrShowModal}>
                 Add
               </Button>
-            </div>
+            </Container>
           : <div className="loading">Loading...</div>}
       </div>
     );
-  }
+  };
+}
+
+function TopThree(props) {
+  return (
+    <div className="box">
+      {second &&
+        <TopItem pos={2} user={props.second} src="/static/silver-star.svg" />}
+
+      {first &&
+        <TopItem pos={1} user={props.first} src="/static/gold-star.svg" />}
+
+      {third &&
+        <TopItem pos={3} user={props.third} src="/static/bronze-star.svg" />}
+    </div>
+  );
+}
+
+function TopItem({ user, src, pos }) {
+  return (
+    <div className="box d-col ai-c" style={{ paddingTop: pos !== 1 ? 10 : 0 }}>
+      <div className="box">
+        <img style={{ width: 100 }} src={src} />
+      </div>
+      <div className="box d-col jc-c ai-c">
+        <div>{pos}.</div>
+        <div>{user.name}</div>
+        <div>{user.score}</div>
+      </div>
+    </div>
+  );
 }
 
 export default compose(
