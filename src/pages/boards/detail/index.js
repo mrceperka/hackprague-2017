@@ -292,10 +292,17 @@ function TopItem({ user, src, pos }) {
 }
 
 export default compose(
-  firebaseConnect(["/boards"]),
-  connect(({ firebase }, { match }) => {
+  firebaseConnect(({ match }) => {
+    return [
+      {
+        path: "/boards",
+        queryParams: ["orderByChild=public_code", "equalTo=" + match.params.id]
+      }
+    ];
+  }),
+  connect(({ firebase }, ownProps) => {
     return {
-      board: dataToJS(firebase, "/boards/" + match.params.id)
+      board: dataToJS(firebase, "boards")
     };
   })
 )(BoardDetail);
