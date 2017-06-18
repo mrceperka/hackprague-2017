@@ -138,7 +138,7 @@ class BoardDetail extends React.Component {
     const boardID = board.id;
 
     const user = this.getCurrentBoardUser();
-    console.log(this.state.checkpoint.id);
+
     firebase.push(
       "/boards/" + boardID + "/records/" + user.id,
       {
