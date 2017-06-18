@@ -25,6 +25,7 @@ import {
 
 import AppHeader from "../../../components/AppHeader";
 import PageTitle from "../../../components/PageTitle";
+import Leaderboard from "../../../components/Leaderboard";
 
 import { getUsers, getCheckpoints, isBasic } from "../../../selectors/board";
 
@@ -150,11 +151,6 @@ class BoardDetail extends React.Component {
     return board.sort === "ASC" ? a.score > b.score : a.score < b.score;
   };
 
-  getTopThree = () => {
-    const { board } = this.props;
-    return R.take(3, this.getSorted());
-  };
-
   getSorted = () => {
     const { board } = this.props;
     const top = R.pipe(getUsers, R.sort(this.sortByScore));
@@ -178,9 +174,6 @@ class BoardDetail extends React.Component {
 
   renderLeaderBoard = () => {
     const { board } = this.props;
-    let topThree = this.getTopThree();
-    console.log(topThree);
-    console.log(board);
 
     return (
       <div>
@@ -194,28 +187,7 @@ class BoardDetail extends React.Component {
             </Col>
           </Row>
 
-          <TopThree
-            first={topThree[0]}
-            second={topThree[1]}
-            third={topThree[2]}
-          />
-          <div className="box d-col">
-            {this.getSorted().map((user, i) => {
-              return i > 2
-                ? <div key={i} className="box">
-                    <div>
-                      {i}.
-                    </div>
-                    <div>
-                      {user.name}
-                    </div>
-                    <div>
-                      {user.score}
-                    </div>
-                  </div>
-                : null;
-            })}
-          </div>
+          <Leaderboard users={this.getSorted()} />
 
           <Modal isOpen={this.state.show_modal} toggle={this.toggleNameModal}>
             <ModalHeader>
@@ -270,42 +242,6 @@ class BoardDetail extends React.Component {
       </div>
     );
   };
-}
-
-function TopThree(props) {
-  return (
-    <Row>
-      <Col xs={12} sm={4}>
-        {props.second &&
-          <TopItem pos={2} user={props.second} src="/static/silver-star.svg" />}
-      </Col>
-
-      <Col xs={12} sm={4}>
-        {props.first &&
-          <TopItem pos={1} user={props.first} src="/static/gold-star.svg" />}
-      </Col>
-
-      <Col xs={12} sm={4}>
-        {props.third &&
-          <TopItem pos={3} user={props.third} src="/static/bronze-star.svg" />}
-      </Col>
-    </Row>
-  );
-}
-
-function TopItem({ user, src, pos }) {
-  return (
-    <div className="box d-col ai-c" style={{ paddingTop: pos !== 1 ? 10 : 0 }}>
-      <div className="box">
-        <img style={{ width: 100 }} src={src} />
-      </div>
-      <div className="box d-col jc-c ai-c">
-        <div>{pos}.</div>
-        <div>{user.name}</div>
-        <div>{user.score}</div>
-      </div>
-    </div>
-  );
 }
 
 export default compose(
