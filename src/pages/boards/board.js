@@ -306,6 +306,7 @@ class Board extends React.Component {
         .then(snapshot => {
           const id = snapshot.key;
           const { history } = this.props;
+          window.toastr.success("Added");
           history.push("/boards/" + id);
         });
     }
@@ -343,25 +344,27 @@ class Board extends React.Component {
       const { board, match } = this.props;
       const id = match.params.id;
       this.props.firebase.update("/boards/" + id, this.boardToApi(), () =>
-        alert("Done")
+        window.toastr.success("Updated")
       );
     }
   };
 
   isBoardValid = () => {
     if (isEmail(this.state.email) === false) {
-      alert("fill valid email please");
+      window.toastr.error("Fill valid email please");
       return false;
     }
+
     if (
       this.state.type === "checkpoints" &&
       this.state.checkpoints.length === 0
     ) {
-      alert("fill checkpoints please");
+      window.toastr.error("Fill some checkpoints please");
       return false;
     }
+
     if (this.state.title === "") {
-      alert("fill title please");
+      window.toastr.error("Fill title");
       return false;
     }
     return true;

@@ -55,7 +55,7 @@ class BoardDetail extends React.Component {
         .once("value")
         .then(r => {
           if (r.val() != null) {
-            alert("user already exists!");
+            window.toastr.error("Someone has already taken that name :(");
           } else {
             //save locally
             localStorage.setItem("name", this.state.name);
@@ -71,15 +71,16 @@ class BoardDetail extends React.Component {
                 score: 0
               },
               () => {
-                alert("added!");
+                window.toastr.success("Yeeey, you have joined the board");
               }
             );
           }
         });
     } else {
-      alert("please, state your name");
+      window.toastr.warning("Tell us you name please");
     }
   };
+
   onCheckCodeClick = () => {
     const { board } = this.props;
     const checkpoints = getCheckpoints(board);
@@ -89,7 +90,7 @@ class BoardDetail extends React.Component {
     if (found) {
       this.updateScore();
     } else {
-      alert("not found. sorry");
+      window.toastr.warning("Code was not found.");
     }
   };
 
@@ -122,7 +123,7 @@ class BoardDetail extends React.Component {
           : true
       },
       () => {
-        alert("added!");
+        window.toastr.success("Added!");
       }
     );
   };
