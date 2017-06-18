@@ -109,6 +109,11 @@ class BoardDetail extends React.Component {
   getCurrentBoardUser = () => {
     const { board } = this.props;
     const name = localStorage.getItem("name");
+
+    if (name) {
+      this.setState({ name });
+    }
+
     return R.find(user => user.name === name, getUsers(board));
   };
 
