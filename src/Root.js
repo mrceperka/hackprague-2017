@@ -30,7 +30,7 @@ export default () => {
             <Route exact path="/boards/edit/:id" component={EditBoard} />
           </Switch>
           <Container className="footer text-center">
-            Created with ❤ at
+            Created with <i className="material-icons">favorite</i> at
             {" "}
             <a href="http://hackprague.com/" target="_blank">HackPrague</a>
           </Container>
