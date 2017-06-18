@@ -70,6 +70,13 @@ class Home extends React.Component {
     }
   };
 
+  componentWillUnmount() {
+    const ids = R.keys(this.props.trending);
+    R.forEach(id => {
+      this.props.firebase.ref("/boards/" + id).off();
+    }, ids);
+  }
+
   handleAnyChange = (name, value) => {
     this.setState(prevState => ({
       ...prevState,
