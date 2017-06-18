@@ -1,3 +1,19 @@
 body {
     color: @dark;
 }
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: 300;
+
+    &.page-title {
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+}

@@ -60,10 +60,7 @@ class Home extends React.Component {
           <Container>
             <Row>
               <Col className="text-center bottom-margin">
-                <h1 className="display-4 hidden-sm-down">
-                  Instant leaderboards in 60 seconds or less.
-                </h1>
-                <h1 className="h3 hidden-md-up">
+                <h1>
                   Instant leaderboards in 60 seconds or less.
                 </h1>
                 <p className="lead">

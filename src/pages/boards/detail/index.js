@@ -24,6 +24,7 @@ import {
 } from "reactstrap";
 
 import AppHeader from "../../../components/AppHeader";
+import PageTitle from "../../../components/PageTitle";
 
 import { getUsers, getCheckpoints, isBasic } from "../../../selectors/board";
 
@@ -185,21 +186,19 @@ class BoardDetail extends React.Component {
       <div>
         <AppHeader />
         <Container>
-          <div className="box">
-            <div>
+          <PageTitle>{board.title}</PageTitle>
+          <Row>
+            <Col>
               <img style={{ width: 100 }} src="/static/trophy.svg" />
-            </div>
-            <div className="box ai-c" style={{ overflow: "auto" }}>
               {board.description}
-            </div>
-          </div>
-          <div>
-            <TopThree
-              first={topThree[0]}
-              second={topThree[1]}
-              third={topThree[2]}
-            />
-          </div>
+            </Col>
+          </Row>
+
+          <TopThree
+            first={topThree[0]}
+            second={topThree[1]}
+            third={topThree[2]}
+          />
           <div className="box d-col">
             {this.getSorted().map((user, i) => {
               return i > 2
@@ -275,16 +274,22 @@ class BoardDetail extends React.Component {
 
 function TopThree(props) {
   return (
-    <div className="box">
-      {props.second &&
-        <TopItem pos={2} user={props.second} src="/static/silver-star.svg" />}
+    <Row>
+      <Col xs={12} sm={4}>
+        {props.second &&
+          <TopItem pos={2} user={props.second} src="/static/silver-star.svg" />}
+      </Col>
 
-      {props.first &&
-        <TopItem pos={1} user={props.first} src="/static/gold-star.svg" />}
+      <Col xs={12} sm={4}>
+        {props.first &&
+          <TopItem pos={1} user={props.first} src="/static/gold-star.svg" />}
+      </Col>
 
-      {props.third &&
-        <TopItem pos={3} user={props.third} src="/static/bronze-star.svg" />}
-    </div>
+      <Col xs={12} sm={4}>
+        {props.third &&
+          <TopItem pos={3} user={props.third} src="/static/bronze-star.svg" />}
+      </Col>
+    </Row>
   );
 }
 
