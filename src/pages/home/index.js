@@ -71,11 +71,18 @@ class Home extends React.Component {
 
             <Row>
               <Col className="text-center">
-                <Form inline>
+                <Form
+                  inline
+                  onSubmit={e => {
+                    e.preventDefault();
+                    this.findByCode();
+                  }}
+                >
                   <FormGroup>
                     <InputGroup size="lg">
                       <InputGroupAddon>#</InputGroupAddon>
                       <Input
+                        autoFocus
                         type="text"
                         value={this.state.code}
                         placeholder="Enter code"
