@@ -18,7 +18,7 @@ class Boards extends React.Component {
           ? R.map(
               board =>
                 <div key={board.id}>
-                  <Link to={"/boards/" + board.id}>{board.title}</Link>
+                  <Link to={"/boards/" + board.public_code}>{board.title}</Link>
                 </div>,
               this.getBoards()
             )
