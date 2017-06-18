@@ -2,24 +2,43 @@ import React from "react";
 import R from "ramda";
 import { Col, Row } from "reactstrap";
 
-function Leaderboard(props) {
-  const topThree = R.take(3, props.users);
+function Leaderboard({ users, board }) {
+  console.log(users);
+  const topThree = R.take(3, users);
   return (
-    <div>
-      <TopThree first={topThree[0]} second={topThree[1]} third={topThree[2]} />
+    <div className="leaderboard">
+      <div
+        className="top"
+        style={{ backgroundImage: "url(" + board.img + ")" }}
+      />
+      <h3>
+        {board.title}
+      </h3>
+      <p>
+        {board.description}
+      </p>
+      <TopThree
+        first={topThree[0]}
+        second={topThree[1]}
+        third={topThree[2]}
+        units={board.units}
+      />
       <div className="box d-col">
-        {props.users.map((user, i) => {
+        {users.map((user, i) => {
           return i > 2
-            ? <div key={i} className="box">
-                <div>
-                  {i}.
-                </div>
-                <div>
-                  {user.name}
-                </div>
-                <div>
-                  {user.score}
-                </div>
+            ? <div key={i}>
+                <hr />
+                <Row>
+                  <Col xs={2} className="text-center">
+                    {i}.
+                  </Col>
+                  <Col xs={8}>
+                    {user.name}
+                  </Col>
+                  <Col xs={2} className="text-center">
+                    {user.score} {board.units}
+                  </Col>
+                </Row>
               </div>
             : null;
         })}
@@ -28,34 +47,46 @@ function Leaderboard(props) {
   );
 }
 
-function TopThree(props) {
+function TopThree({ first, second, third, units }) {
   return (
     <Row>
+      <Col xs={12}>
+        <Row>
+          {second &&
+            <TopItem
+              pos={2}
+              user={second}
+              units={units}
+              src="/static/silver-star.svg"
+            />}
 
-      {props.second &&
-        <TopItem pos={2} user={props.second} src="/static/silver-star.svg" />}
+          {first &&
+            <TopItem
+              pos={1}
+              user={first}
+              units={units}
+              src="/static/gold-star.svg"
+            />}
 
-      {props.first &&
-        <TopItem pos={1} user={props.first} src="/static/gold-star.svg" />}
-
-      {props.third &&
-        <TopItem pos={3} user={props.third} src="/static/bronze-star.svg" />}
-
+          {third &&
+            <TopItem
+              pos={3}
+              user={third}
+              units={units}
+              src="/static/bronze-star.svg"
+            />}
+        </Row>
+      </Col>
     </Row>
   );
 }
 
-function TopItem({ user, src, pos }) {
+function TopItem({ user, src, pos, units }) {
   return (
-    <Col xs={12} sm={4}>
-      <div className="box">
-        <img style={{ width: 100 }} src={src} />
-      </div>
-      <div className="box d-col jc-c ai-c">
-        <div>{pos}.</div>
-        <div>{user.name}</div>
-        <div>{user.score}</div>
-      </div>
+    <Col xs={12} sm={4} className="top-item text-center">
+      <img style={{ width: 100 }} src={src} />
+      <h4>{user.name}</h4>
+      <p>{user.score} {units}</p>
     </Col>
   );
 }

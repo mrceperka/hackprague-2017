@@ -185,29 +185,23 @@ class BoardDetail extends React.Component {
   renderLeaderBoard = () => {
     const { board } = this.props;
 
+    {
+      /*<FacebookShareButton
+      url={window.location.href}
+      title={board.title}
+    >
+      <FacebookIcon size={32} round />
+    </FacebookShareButton>*/
+    }
     return (
       <div>
         <AppHeader />
         <Container>
-          <PageTitle>
-            <div style={{ background: "url(" + board.img + ")" }}>
-              {board.title}
-            </div>
-          </PageTitle>
           <Row>
-            <Col>
-              <img style={{ width: 100 }} src="/static/trophy.svg" />
-              {board.description}
-              <FacebookShareButton
-                url={window.location.href}
-                title={board.title}
-              >
-                <FacebookIcon size={32} round />
-              </FacebookShareButton>
+            <Col xs={12} md={{ size: 8, offset: 2 }}>
+              <Leaderboard users={this.getSorted()} board={board} />
             </Col>
           </Row>
-
-          <Leaderboard users={this.getSorted()} />
 
           <Modal isOpen={this.state.show_modal} toggle={this.toggleNameModal}>
             <ModalHeader>
