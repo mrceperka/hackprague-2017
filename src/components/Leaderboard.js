@@ -1,6 +1,8 @@
 import React from "react";
 import R from "ramda";
 import { Col, Row, Button, ListGroup, ListGroupItem } from "reactstrap";
+import { Link } from "react-router-dom";
+
 import {
   isBasic,
   getCheckpoints,
@@ -33,7 +35,7 @@ function Leaderboard({ users, board, firebase, inCard }) {
   const inCardClass = inCard ? " in-card" : "";
   return (
     <div className={"leaderboard" + inCardClass}>
-      <LeaderboardHeader board={board} />
+      <LeaderboardHeader board={board} firebase={firebase} inCard={inCard} />
       <TopThree
         board={board}
         firebase={firebase}
@@ -91,7 +93,13 @@ function Leaderboard({ users, board, firebase, inCard }) {
   );
 }
 
-export function LeaderboardHeader({ board }) {
+function LeaderboardHeader({ board, inCard }) {
+  return inCard
+    ? <LeaderboardHeaderWithLink board={board} />
+    : <LeaderboardHeaderWithoutLink board={board} />;
+}
+
+function LeaderboardHeaderWithoutLink({ board }) {
   let imageUrl = board.img.length > 0 ? board.img : "/static/trophy.svg";
   let empty = board.img.length === 0 ? " empty" : "";
   return (
@@ -108,6 +116,14 @@ export function LeaderboardHeader({ board }) {
         </p>
       </div>
     </div>
+  );
+}
+
+function LeaderboardHeaderWithLink({ board }) {
+  return (
+    <Link to={"/boards/" + board.public_code}>
+      <LeaderboardHeaderWithoutLink board={board} />
+    </Link>
   );
 }
 

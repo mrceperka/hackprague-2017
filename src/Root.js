@@ -29,6 +29,11 @@ export default () => {
             <Route exact path="/boards/:id" component={BoardDetail} />
             <Route exact path="/boards/edit/:id" component={EditBoard} />
           </Switch>
+          <Container className="footer text-center">
+            Created with ❤ at
+            {" "}
+            <a href="http://hackprague.com/" target="_blank">HackPrague</a>
+          </Container>
         </div>
       </Router>
     </Provider>
