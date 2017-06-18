@@ -62,7 +62,7 @@ function Leaderboard({ users, board, firebase, inCard }) {
                     className="badge badge-default rounded-circle"
                     style={{ position: "absolute", bottom: -5, left: 0 }}
                   >
-                    {i}
+                    {i + 1}
                   </div>
                 </div>
                 <div>

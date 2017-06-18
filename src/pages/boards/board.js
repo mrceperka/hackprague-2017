@@ -444,7 +444,25 @@ class Board extends React.Component {
         .then(snapshot => {
           const board = snapshot.val();
           const { history } = this.props;
-          window.toastr.success("Added");
+          window.toastr.success("Added, trying to send a board email");
+
+          window.emailjs
+            .send("mail_ru", "basic_to", {
+              to: board.email,
+              board_link: "http://kapoard.com/boards/edit/" + snapshot.key
+            })
+            .then(
+              function(response) {
+                window.toastr.success("Check your inbox for detail", "", {
+                  timeOut: 500
+                });
+              },
+              function(error) {
+                window.toastr.warning("Mail sending failed");
+                console.log(error);
+              }
+            );
+
           history.push("/boards/" + board.public_code);
         });
     }
