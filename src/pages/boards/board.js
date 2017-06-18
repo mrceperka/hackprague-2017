@@ -225,12 +225,13 @@ class Board extends React.Component {
                           >
                             <div>{item.title}</div>
                             <Badge pill>{item.score}</Badge>
-                            <Button
-                              color="danger"
+                            <div
+                              className="text-danger"
+                              style={{ cursor: "pointer" }}
                               onClick={() => this.removeCheckpoint(item.id)}
                             >
-                              Delete
-                            </Button>
+                              <i className="material-icons">delete</i>
+                            </div>
                           </ListGroupItem>,
                         this.state.checkpoints
                       )}
@@ -272,11 +273,9 @@ class Board extends React.Component {
                         xs={12}
                         className="d-flex justify-content-end align-items-center"
                       >
-                        <FormGroup>
-                          <Button color="info" onClick={this.addCheckPoint}>
-                            Add
-                          </Button>
-                        </FormGroup>
+                        <Button color="info" onClick={this.addCheckPoint}>
+                          Add
+                        </Button>
                       </Col>
                     </Row>
 
@@ -325,7 +324,7 @@ class Board extends React.Component {
                   </Col>
                 </FormGroup>
 
-                <FormGroup>
+                {/*<FormGroup>
                   <Label for="theme_id">Pick a theme</Label>
                   <Input
                     type="select"
@@ -338,14 +337,19 @@ class Board extends React.Component {
                     <option value="dark">Dark</option>
                     <option value="light">Light</option>
                   </Input>
-                </FormGroup>
+                </FormGroup>*/}
 
                 <div className="spacer" />
                 <div className="spacer" />
 
                 <FormGroup className="text-center">
                   {this.isEdit()
-                    ? <Button color="success" onClick={this.updateBoard}>
+                    ? <Button
+                        className="btn-block"
+                        size="lg"
+                        color="success"
+                        onClick={this.updateBoard}
+                      >
                         Edit
                       </Button>
                     : <Button
