@@ -77,70 +77,83 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div className="main-header">
-        <AppHeader />
-        <Jumbotron>
-          <Container>
-            <Row>
-              <Col className="text-center bottom-margin">
-                <h1>
-                  Instant leaderboards in 60 seconds or less.
-                </h1>
-                <p className="lead">
-                  Browse, join, create, compete!
-                </p>
-              </Col>
-            </Row>
+      <div>
+        <div className="main-header">
+          <AppHeader />
+          <Jumbotron>
+            <Container>
+              <Row>
+                <Col className="text-center bottom-margin">
+                  <h1>
+                    Instant leaderboards in 60 seconds or less.
+                  </h1>
+                  <p className="lead">
+                    Browse, join, create, compete!
+                  </p>
+                </Col>
+              </Row>
 
-            <Row>
-              <Col className="text-center">
-                <Form
-                  inline
-                  onSubmit={e => {
-                    e.preventDefault();
-                    this.findByCode();
-                  }}
-                >
-                  <FormGroup>
-                    <InputGroup size="lg">
-                      <InputGroupAddon>#</InputGroupAddon>
-                      <Input
-                        autoFocus
-                        type="text"
-                        value={this.state.code}
-                        placeholder="Enter code"
-                        onChange={e =>
-                          this.handleAnyChange("code", e.target.value)}
-                      />
-                    </InputGroup>
-                    <Button size="lg" onClick={this.findByCode} color="primary">
-                      Go
+              <Row>
+                <Col className="text-center">
+                  <Form
+                    inline
+                    onSubmit={e => {
+                      e.preventDefault();
+                      this.findByCode();
+                    }}
+                  >
+                    <FormGroup>
+                      <InputGroup size="lg">
+                        <InputGroupAddon>#</InputGroupAddon>
+                        <Input
+                          autoFocus
+                          type="text"
+                          value={this.state.code}
+                          placeholder="Enter code"
+                          onChange={e =>
+                            this.handleAnyChange("code", e.target.value)}
+                        />
+                      </InputGroup>
+                      <Button
+                        size="lg"
+                        onClick={this.findByCode}
+                        color="primary"
+                      >
+                        Go
+                      </Button>
+                    </FormGroup>
+                  </Form>
+                </Col>
+              </Row>
+              <Row>
+                <Col className="text-center or lead">
+                  or
+                </Col>
+              </Row>
+              <Row>
+                <Col className="text-center">
+                  <Link to="/boards/new">
+                    <Button size="lg" color="success">
+                      Create new leaderboard
                     </Button>
-                  </FormGroup>
-                </Form>
-              </Col>
-            </Row>
-            <Row>
-              <Col className="text-center or lead">
-                or
-              </Col>
-            </Row>
-            <Row>
-              <Col className="text-center">
-                <Link to="/boards/new">
-                  <Button size="lg" color="success">
-                    Create new leaderboard
-                  </Button>
-                </Link>
-              </Col>
-            </Row>
-          </Container>
-        </Jumbotron>
-        <Row>
-          <Col xs={12}>Trending</Col>
+                  </Link>
+                </Col>
+              </Row>
+            </Container>
 
-          {R.map(board => <Leaderboard users={[]} board={board} />)}
-        </Row>
+          </Jumbotron>
+
+        </div>
+        <div>
+          <Row>
+            <Col xs={12}>Trending</Col>
+            {this.state.boards.map((board, i) =>
+              <Col key={i} xs={12} md={3}>
+                <Leaderboard users={[]} board={board} />
+              </Col>
+            )}
+          </Row>
+        </div>
       </div>
     );
   }
