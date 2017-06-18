@@ -23,8 +23,14 @@ import {
   Row,
   ListGroup,
   ListGroupItem,
-  Badge
+  Badge,
+  Container,
+  InputGroupAddon,
+  InputGroup
 } from "reactstrap";
+
+import AppHeader from "../../components/AppHeader";
+import PageTitle from "../../components/PageTitle";
 
 import { getCheckpoints } from "../../selectors/board";
 
@@ -60,233 +66,301 @@ class Board extends React.Component {
 
   render() {
     return (
-      <Row>
-        <Col>
-          <Form>
-            <h1>
-              {this.isEdit() ? "Edit board" : "New board"}
-            </h1>
-            <FormGroup>
-              <Label for="email_id">Tell us your email address, please</Label>
-              <Input
-                type="email"
-                id="email_id"
-                name="email"
-                value={this.state.email}
-                onChange={e =>
-                  this.handleStringChange("email", e.target.value, true)}
-              />
-            </FormGroup>
+      <div>
+        <AppHeader />
+        <Container>
+          <Row>
+            <Col md={{ size: 8, offset: 2 }}>
+              <Form>
+                <PageTitle>
+                  {this.isEdit() ? "Edit board" : "New board"}
+                </PageTitle>
 
-            <FormGroup>
-              <Label for="title_id">Name your board</Label>
-              <Input
-                type="text"
-                name="title"
-                id="title_id"
-                value={this.state.title}
-                onChange={e =>
-                  this.handleStringChange("title", e.target.value, true)}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="image_id">Cover image link</Label>
-              <Input
-                type="text"
-                name="image"
-                id="image_id"
-                value={this.state.img}
-                onChange={e =>
-                  this.handleStringChange("img", e.target.value, true)}
-              />
-            </FormGroup>
-
-            <FormGroup tag="fieldset" row>
-              <legend className="col-form-legend">
-                Should it be private or publicly discoverable?
-              </legend>
-
-              <Col sm={10}>
-                <FormGroup check>
-                  <Label check>
+                <FormGroup>
+                  <Label for="email_id">Your email address</Label>
+                  <InputGroup>
+                    <InputGroupAddon>
+                      <i className="material-icons">email</i>
+                    </InputGroupAddon>
                     <Input
-                      type="radio"
-                      name="is_discoverable"
-                      checked={this.state.is_discoverable === true}
-                      onChange={() =>
-                        this.handleAnyChange("is_discoverable", true)}
+                      type="email"
+                      id="email_id"
+                      name="email"
+                      value={this.state.email}
+                      onChange={e =>
+                        this.handleStringChange("email", e.target.value, true)}
                     />
-                    Public
-                  </Label>
-
-                </FormGroup>
-                <FormGroup check>
-                  <Label check>
-                    <Input
-                      type="radio"
-                      name="is_discoverable"
-                      checked={this.state.is_discoverable === false}
-                      onChange={() =>
-                        this.handleAnyChange("is_discoverable", false)}
-                    />
-                    Private
-                  </Label>
-                </FormGroup>
-              </Col>
-            </FormGroup>
-
-            <FormGroup>
-              <Label for="theme_id"> Select your theme</Label>
-              <Input
-                type="select"
-                name="theme"
-                id="theme_id"
-                onChange={e => this.handleAnyChange("theme", e.target.value)}
-                value={this.state.theme}
-              >
-                <option value="dark">Dark</option>
-                <option value="light">Light</option>
-              </Input>
-            </FormGroup>
-
-            <FormGroup>
-              <Label for="desc_id">
-                Give some short description to your board
-              </Label>
-              <Input
-                type="textarea"
-                name="desc"
-                id="desc_id"
-                value={this.state.desc}
-                onChange={e => this.handleAnyChange("desc", e.target.value)}
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <Label for="type_id">
-                And now select you board type
-              </Label>
-              <Input
-                type="select"
-                name="type"
-                id="type_id"
-                onChange={e => this.handleAnyChange("type", e.target.value)}
-                value={this.state.type}
-              >
-                <option value="basic">Basic</option>
-                <option value="checkpoints">Checkpoints</option>
-              </Input>
-            </FormGroup>
-
-            {this.state.type === "basic" &&
-              <div>
-                <FormGroup tag="fieldset">
-                  <legend> Is it admin protected to change scores?</legend>
-                  <FormGroup check>
-                    <Label check>
-                      <Input
-                        type="radio"
-                        name="admin_approval"
-                        checked={this.state.admin_approval === true}
-                        onChange={() =>
-                          this.handleAnyChange("admin_approval", true)}
-                      />
-                      Yes
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check>
-                    <Label check>
-                      <Input
-                        type="radio"
-                        name="admin_approval"
-                        checked={this.state.admin_approval === false}
-                        onChange={() =>
-                          this.handleAnyChange("admin_approval", false)}
-                      />
-                      No
-                    </Label>
-                  </FormGroup>
+                  </InputGroup>
                 </FormGroup>
 
                 <FormGroup>
-                  <Label for="units_id">
-                    Write down units of achievements
-                  </Label>
+                  <Label for="title_id">Board name</Label>
                   <Input
                     type="text"
-                    name="units"
-                    id="units_id"
-                    value={this.state.units}
+                    name="title"
+                    id="title_id"
+                    value={this.state.title}
                     onChange={e =>
-                      this.handleAnyChange("units", e.target.value, true)}
+                      this.handleStringChange("title", e.target.value, true)}
                   />
                 </FormGroup>
-              </div>}
 
-            {this.state.type === "checkpoints" &&
-              <div className="box d-col">
-                <ListGroup>
-                  {R.addIndex(R.map)(
-                    (item, i) =>
-                      <ListGroupItem
-                        className="justify-content-between"
-                        key={i}
+                <FormGroup>
+                  <Label for="desc_id">
+                    Board description
+                  </Label>
+                  <Input
+                    style={{ minHeight: 100 }}
+                    type="textarea"
+                    name="desc"
+                    id="desc_id"
+                    value={this.state.desc}
+                    onChange={e => this.handleAnyChange("desc", e.target.value)}
+                  />
+                </FormGroup>
+
+                <FormGroup>
+                  <Label for="image_id">Board cover image link</Label>
+                  <InputGroup>
+                    <InputGroupAddon>
+                      <i className="material-icons">link</i>
+                    </InputGroupAddon>
+                    <Input
+                      type="text"
+                      name="image"
+                      id="image_id"
+                      value={this.state.img}
+                      onChange={e =>
+                        this.handleStringChange("img", e.target.value, true)}
+                    />
+                  </InputGroup>
+                </FormGroup>
+
+                <hr />
+                <div className="spacer" />
+
+                <FormGroup>
+                  <Label for="type_id">
+                    Board type
+                    <FormText color="muted">
+                      Basic for simple +1 boards, Checkpoints for series
+                    </FormText>
+                  </Label>
+                  <Input
+                    type="select"
+                    name="type"
+                    id="type_id"
+                    onChange={e => this.handleAnyChange("type", e.target.value)}
+                    value={this.state.type}
+                  >
+                    <option value="basic">Basic</option>
+                    <option value="checkpoints">Checkpoints</option>
+                  </Input>
+                </FormGroup>
+
+                {this.state.type === "basic" &&
+                  <div>
+                    <FormGroup tag="fieldset">
+                      <legend className="col-form-legend">
+                        Requires admin's approval?
+                        <FormText color="muted">
+                          Votes of users has to go through admin who is THE
+                          validator
+                        </FormText>
+                      </legend>
+                      <FormGroup check>
+                        <Label check>
+                          <Input
+                            type="radio"
+                            name="admin_approval"
+                            checked={this.state.admin_approval === true}
+                            onChange={() =>
+                              this.handleAnyChange("admin_approval", true)}
+                          />
+                          Yes
+                        </Label>
+                      </FormGroup>
+                      <FormGroup check>
+                        <Label check>
+                          <Input
+                            type="radio"
+                            name="admin_approval"
+                            checked={this.state.admin_approval === false}
+                            onChange={() =>
+                              this.handleAnyChange("admin_approval", false)}
+                          />
+                          No
+                        </Label>
+                      </FormGroup>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <Label for="units_id">
+                        Units of achievements
+                        <FormText color="muted">
+                          km, kg, apples_eaten,...
+                        </FormText>
+                      </Label>
+
+                      <Input
+                        type="text"
+                        name="units"
+                        id="units_id"
+                        value={this.state.units}
+                        onChange={e =>
+                          this.handleAnyChange("units", e.target.value, true)}
+                      />
+                    </FormGroup>
+                  </div>}
+
+                {this.state.type === "checkpoints" &&
+                  <div className="box d-col">
+                    <ListGroup>
+                      {R.addIndex(R.map)(
+                        (item, i) =>
+                          <ListGroupItem
+                            className="justify-content-between"
+                            key={i}
+                          >
+                            <div>{item.title}</div>
+                            <Badge pill>{item.score}</Badge>
+                            <Button
+                              color="danger"
+                              onClick={() => this.removeCheckpoint(item.id)}
+                            >
+                              Delete
+                            </Button>
+                          </ListGroupItem>,
+                        this.state.checkpoints
+                      )}
+                    </ListGroup>
+                    <div className="spacer" />
+                    <Row>
+                      <Col
+                        md={{ size: 7, offset: 1 }}
+                        xs={{ size: 11, offset: 1 }}
                       >
-                        <div>{item.title}</div>
-                        <Badge pill>{item.score}</Badge>
-                        <Button
-                          color="danger"
-                          onClick={() => this.removeCheckpoint(item.id)}
-                        >
-                          Delete
-                        </Button>
-                      </ListGroupItem>,
-                    this.state.checkpoints
-                  )}
-                </ListGroup>
+                        <InputGroup>
+                          <InputGroupAddon>
+                            Title
+                          </InputGroupAddon>
+                          <Input
+                            type="text"
+                            name="checkpoint_title"
+                            value={this.state.checkpoint.title}
+                            onChange={this.onCheckpointTitleChange}
+                          />
+                        </InputGroup>
+
+                        <div className="spacer" />
+
+                        <InputGroup>
+                          <InputGroupAddon>
+                            Score
+                          </InputGroupAddon>
+                          <Input
+                            name="checkpoint_score"
+                            type="number"
+                            value={this.state.checkpoint.score}
+                            onChange={this.onCheckpointScoreChange}
+                          />
+                        </InputGroup>
+                      </Col>
+                      <Col
+                        md={{ size: 4, pull: 1 }}
+                        xs={12}
+                        className="d-flex justify-content-end align-items-center"
+                      >
+                        <FormGroup>
+                          <Button color="info" onClick={this.addCheckPoint}>
+                            Add
+                          </Button>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+
+                  </div>}
+
+                <hr />
+                <div className="spacer" />
+
+                <FormGroup tag="fieldset">
+                  <legend className="col-form-legend">
+                    Should it be private or publicly discoverable?
+                  </legend>
+
+                  <Col sm={10}>
+                    <FormGroup check>
+                      <Label check>
+                        <Input
+                          type="radio"
+                          name="is_discoverable"
+                          checked={this.state.is_discoverable === true}
+                          onChange={() =>
+                            this.handleAnyChange("is_discoverable", true)}
+                        />
+                        <div className="box">
+                          <i className="material-icons">public</i>
+                          Public
+                        </div>
+                      </Label>
+
+                    </FormGroup>
+                    <FormGroup check>
+                      <Label check>
+                        <Input
+                          type="radio"
+                          name="is_discoverable"
+                          checked={this.state.is_discoverable === false}
+                          onChange={() =>
+                            this.handleAnyChange("is_discoverable", false)}
+                        />
+                        <div className="box">
+                          <i className="material-icons">lock</i>
+                          Private
+                        </div>
+                      </Label>
+                    </FormGroup>
+                  </Col>
+                </FormGroup>
 
                 <FormGroup>
-                  <Label for="checkpoint_title_id">Title</Label>
+                  <Label for="theme_id">Pick a theme</Label>
                   <Input
-                    type="text"
-                    name="checkpoint_title"
-                    id="checkpoint_title_id"
-                    value={this.state.checkpoint.title}
-                    onChange={this.onCheckpointTitleChange}
-                  />
+                    type="select"
+                    name="theme"
+                    id="theme_id"
+                    onChange={e =>
+                      this.handleAnyChange("theme", e.target.value)}
+                    value={this.state.theme}
+                  >
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                  </Input>
                 </FormGroup>
 
-                <FormGroup>
-                  <Label for="checkpoint_score_id">Score</Label>
-                  <Input
-                    name="checkpoint_score"
-                    type="number"
-                    id="checkpoint_score_id"
-                    value={this.state.checkpoint.score}
-                    onChange={this.onCheckpointScoreChange}
-                  />
+                <div className="spacer" />
+                <div className="spacer" />
+
+                <FormGroup className="text-center">
+                  {this.isEdit()
+                    ? <Button color="success" onClick={this.updateBoard}>
+                        Edit
+                      </Button>
+                    : <Button
+                        className="btn-block"
+                        size="lg"
+                        color="success"
+                        onClick={this.addBoard}
+                      >
+                        Add
+                      </Button>}
                 </FormGroup>
-
-                <FormGroup>
-                  <Button color="info" onClick={this.addCheckPoint}>
-                    Add
-                  </Button>
-                </FormGroup>
-
-              </div>}
-
-            <FormGroup>
-              {this.isEdit()
-                ? <Button color="success" onClick={this.updateBoard}>
-                    Edit
-                  </Button>
-                : <Button color="success" onClick={this.addBoard}>
-                    Add
-                  </Button>}
-            </FormGroup>
-          </Form>
-        </Col>
-      </Row>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
   }
 
@@ -332,22 +406,28 @@ class Board extends React.Component {
     const boardId = match.params.id;
     const id = uuid.v4();
 
-    this.setState(prevstate => ({
-      ...prevstate,
-      checkpoints: [
-        ...prevstate.checkpoints,
-        {
-          id,
-          title: prevstate.checkpoint.title,
-          score: parseInt(prevstate.checkpoint.score),
-          code: shortid.generate()
+    if (this.state.checkpoint.title !== "") {
+      this.setState(prevstate => ({
+        ...prevstate,
+        checkpoints: [
+          ...prevstate.checkpoints,
+          {
+            id,
+            title: prevstate.checkpoint.title,
+            score: parseInt(prevstate.checkpoint.score),
+            code: shortid.generate()
+          }
+        ],
+        checkpoint: {
+          title: "",
+          score: 0
         }
-      ],
-      checkpoint: {
-        title: "",
-        score: 0
-      }
-    }));
+      }));
+    } else {
+      window.toastr.warning("Please, fill the title of a checkpoint", "", {
+        timeOut: 500
+      });
+    }
   };
 
   addBoard = () => {
