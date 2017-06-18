@@ -162,8 +162,8 @@ class BoardDetail extends React.Component {
 
   render = () => {
     const { board } = this.props;
-    return isLoaded()
-      ? isEmpty() ? this.renderEmpty() : this.renderLeaderBoard(board)
+    return isLoaded(board)
+      ? isEmpty(board) ? this.renderEmpty() : this.renderLeaderBoard(board)
       : this.renderWaiting();
   };
 
@@ -175,8 +175,11 @@ class BoardDetail extends React.Component {
     return <div className="loading">Loading...</div>;
   };
 
-  renderLeaderBoard = board => {
+  renderLeaderBoard = () => {
+    const { board } = this.props;
     let topThree = this.getTopThree();
+    console.log(topThree);
+    console.log(board);
 
     return (
       <div>
@@ -273,13 +276,13 @@ class BoardDetail extends React.Component {
 function TopThree(props) {
   return (
     <div className="box">
-      {second &&
+      {props.second &&
         <TopItem pos={2} user={props.second} src="/static/silver-star.svg" />}
 
-      {first &&
+      {props.first &&
         <TopItem pos={1} user={props.first} src="/static/gold-star.svg" />}
 
-      {third &&
+      {props.third &&
         <TopItem pos={3} user={props.third} src="/static/bronze-star.svg" />}
     </div>
   );
