@@ -198,7 +198,7 @@ class BoardDetail extends React.Component {
     return (
       <div>
         <AppHeader />
-        <Container>
+        <Container className="body">
           <Row>
             <Col xs={12} md={{ size: 8, offset: 2 }}>
               <Leaderboard users={this.getSorted()} board={board} />
