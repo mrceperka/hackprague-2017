@@ -21,7 +21,7 @@ export default () => {
             <Route exact path="/" component={Home} />
             <Route
               exact
-              path="/__fu_bar"
+              path="/adminerino"
               component={() => <Boards isAdmin={true} />}
             />
             <Route exact path="/boards" component={Boards} />
