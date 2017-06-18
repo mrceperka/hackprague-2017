@@ -3,6 +3,18 @@ import React from "react";
 import { compose } from "redux";
 import { Link } from "react-router-dom";
 import { firebaseConnect } from "react-redux-firebase";
+import {
+  Form,
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  Button,
+  Jumbotron,
+  Container,
+  Row,
+  Col
+} from "reactstrap";
 
 class Home extends React.Component {
   state = {
@@ -36,31 +48,56 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>
-          Kapoard
-        </h1>
-        <p>
-          Instant leaderboards for anything.
-          Browse, join, compete!
-        </p>
-        <div className="box jc-sa ai-c">
-          <div className="box">
-            <input
-              type="text"
-              value={this.state.code}
-              onChange={e => this.handleAnyChange("code", e.target.value)}
-            />
-            Input search
-            <button onClick={this.findByCode}>Go</button>
-          </div>
-          <div className="box">
-            <Link to="/boards/new">
-              Start new
-            </Link>
-          </div>
-        </div>
-      </div>
+      <Jumbotron>
+        <Container>
+          <Row>
+            <Col className="text-center bottom-margin">
+              <h1>
+                Instant leaderboards in 60 seconds or less.
+              </h1>
+              <p className="lead">
+                Browse, join, create, compete!
+              </p>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col className="text-center">
+              <Form inline>
+                <FormGroup>
+                  <InputGroup size="lg">
+                    <InputGroupAddon>#</InputGroupAddon>
+                    <Input
+                      type="text"
+                      value={this.state.code}
+                      placeholder="Enter code"
+                      onChange={e =>
+                        this.handleAnyChange("code", e.target.value)}
+                    />
+                  </InputGroup>
+                  <Button size="lg" onClick={this.findByCode} color="primary">
+                    Go
+                  </Button>
+                </FormGroup>
+              </Form>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="text-center or lead">
+              or
+            </Col>
+          </Row>
+          <Row>
+            <Col className="text-center">
+              <Link to="/boards/new">
+                <Button size="lg" color="success">
+                  Create new leaderboard
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+        </Container>
+      </Jumbotron>
     );
   }
 }

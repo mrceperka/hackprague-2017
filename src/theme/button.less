@@ -1,10 +1,35 @@
-.button {
-  padding: 5px 8px;
-  height: 30px;
-  background: gold;
+@primary: @medium;
+@primaryHighlight: lighten(@medium, 2%);
+@primaryHighlightBorder: darken(@primaryHighlight, 5%);
+
+@successHighlight: lighten(@success, 2%);
+@successHighlightBorder: darken(@successHighlight, 5%);
+
+.btn {
   cursor: pointer;
-  &:hover {
-    background: red;
+  color: @light;
+}
+
+.btn-primary {
+  background-color: @primary;
+  border-color: @primary;
+  color: @light;
+
+  &:hover, &:active {
+    background-color: @primaryHighlight;
+    border-color: @primaryHighlightBorder;
+    color: @light;
   }
-  transition: all ease-in-out 0.25s;
+}
+
+.btn-success {
+  background-color: @success;
+  border-color: @success;
+  color: @light;
+
+  &:hover, &:active {
+    background-color: @successHighlight;
+    border-color: @successHighlightBorder;
+    color: @light;
+  }
 }
