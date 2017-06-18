@@ -20,10 +20,12 @@ import {
 import AppHeader from "../../components/AppHeader";
 import Leaderboard from "../../components/Leaderboard";
 
+import { getUsers } from "../../selectors/board";
+
 class Home extends React.Component {
   state = {
     code: "",
-    boards: []
+    boards: {}
   };
 
   componentWillReceiveProps(nextProps) {
@@ -56,12 +58,12 @@ class Home extends React.Component {
     if (isEmpty(trending) === false) {
       const ids = R.keys(trending);
       R.forEach(id => {
-        firebase.ref("/boards/" + id).once("value").then(r => {
-          const board = r.val();
+        firebase.ref("/boards/" + id).on("value", snapshot => {
+          const board = snapshot.val();
 
           this.setState(prevState => ({
             ...prevState,
-            boards: [...prevState.boards, { ...board, id }]
+            boards: { ...prevState.boards, [id]: { ...board, id } }
           }));
         });
       }, ids);
@@ -147,11 +149,26 @@ class Home extends React.Component {
         <div>
           <Row>
             <Col xs={12}>Trending</Col>
-            {this.state.boards.map((board, i) =>
-              <Col key={i} xs={12} md={3}>
-                <Leaderboard users={[]} board={board} />
-              </Col>
-            )}
+            {R.keys(this.state.boards).map((id, i) => {
+              const board = this.state.boards[id];
+              return (
+                <Col key={i} xs={12} md={3}>
+                  <Leaderboard
+                    users={R.take(
+                      3,
+                      R.sort(
+                        (a, b) =>
+                          board.sort === "ASC"
+                            ? a.score - b.score
+                            : b.score - a.score,
+                        getUsers(board)
+                      )
+                    )}
+                    board={board}
+                  />
+                </Col>
+              );
+            })}
           </Row>
         </div>
       </div>
