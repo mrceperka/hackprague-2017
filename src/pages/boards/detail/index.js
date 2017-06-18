@@ -199,9 +199,14 @@ class BoardDetail extends React.Component {
       <div>
         <AppHeader />
         <Container className="body">
+
           <Row>
             <Col xs={12} md={{ size: 8, offset: 2 }}>
-              <Leaderboard users={this.getSorted()} board={board} />
+              <Leaderboard
+                users={this.getSorted()}
+                board={board}
+                updateScoreOrShowModal={this.updateScoreOrShowModal}
+              />
             </Col>
           </Row>
 
@@ -251,9 +256,18 @@ class BoardDetail extends React.Component {
             </ModalFooter>
           </Modal>
 
-          <Button color="primary" onClick={this.updateScoreOrShowModal}>
-            Add
-          </Button>
+          <Row>
+            <Col xs={12} md={{ size: 8, offset: 2 }}>
+              <Button
+                className="btn-block"
+                color="primary"
+                onClick={this.updateScoreOrShowModal}
+              >
+                Add
+              </Button>
+            </Col>
+          </Row>
+
         </Container>
       </div>
     );

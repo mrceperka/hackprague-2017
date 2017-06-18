@@ -1,9 +1,8 @@
 import React from "react";
 import R from "ramda";
-import { Col, Row } from "reactstrap";
+import { Col, Row, Button, ListGroup, ListGroupItem } from "reactstrap";
 
-function Leaderboard({ users, board }) {
-  console.log(users);
+function Leaderboard({ users, board, updateScoreOrShowModal }) {
   const topThree = R.take(3, users);
   return (
     <div className="leaderboard">
@@ -26,26 +25,44 @@ function Leaderboard({ users, board }) {
         third={topThree[2]}
         units={board.units}
       />
-      <div className="box d-col">
+      {users.length > 10 &&
+        <Row>
+          <Col xs={12}>
+            <Button
+              className="btn-block"
+              color="primary"
+              onClick={updateScoreOrShowModal}
+            >
+              Add
+            </Button>
+          </Col>
+        </Row>}
+      <ListGroup>
         {users.map((user, i) => {
           return i > 2
-            ? <div key={i}>
-                <hr />
-                <Row>
-                  <Col xs={2} className="text-center">
-                    {i}.
-                  </Col>
-                  <Col xs={8}>
-                    {user.name}
-                  </Col>
-                  <Col xs={2} className="text-center">
-                    {user.score} {board.units}
-                  </Col>
-                </Row>
-              </div>
+            ? <ListGroupItem key={i} className="justify-content-between">
+                <div style={{ position: "relative" }}>
+                  <img
+                    style={{ width: 40 }}
+                    src={"/static/avatars/" + (i % 7 + 1) + ".png"}
+                  />
+                  <div
+                    className="badge badge-default rounded-circle"
+                    style={{ position: "absolute", bottom: -5, left: 0 }}
+                  >
+                    {i}
+                  </div>
+                </div>
+                <div>
+                  {user.name}
+                </div>
+                <div>
+                  {user.score} {board.units}
+                </div>
+              </ListGroupItem>
             : null;
         })}
-      </div>
+      </ListGroup>
     </div>
   );
 }
