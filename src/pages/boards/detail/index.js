@@ -261,18 +261,15 @@ class BoardDetail extends React.Component {
             </ModalFooter>
           </Modal>
 
-          <Row>
-            <Col xs={12} md={{ size: 8, offset: 2 }}>
-              <Button
-                className="btn-block"
-                color="primary"
-                onClick={this.updateScoreOrShowModal}
-              >
-                Add
-              </Button>
-            </Col>
-          </Row>
-
+          <div className="fixed-button">
+            <Button
+              className="btn-block"
+              color="primary"
+              onClick={this.updateScoreOrShowModal}
+            >
+              Add my score
+            </Button>
+          </div>
         </Container>
       </div>
     );
