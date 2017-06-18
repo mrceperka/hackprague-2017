@@ -45,7 +45,7 @@ class AppHeader extends Component {
           <Container>
             <NavbarToggler right onClick={this.toggle} />
             <Link className="navbar-brand" to="/">
-              <NavbarBrand>kaboard</NavbarBrand>
+              kaboard
             </Link>
 
             <Collapse isOpen={this.state.isOpen} navbar>
