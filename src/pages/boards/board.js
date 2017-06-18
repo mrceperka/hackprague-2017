@@ -132,7 +132,7 @@ class Board extends React.Component {
                       id="image_id"
                       value={this.state.img}
                       onChange={e =>
-                        this.handleStringChange("img", e.target.value, true)}
+                        this.handleStringChange("img", e.target.value)}
                     />
                   </InputGroup>
                 </FormGroup>
