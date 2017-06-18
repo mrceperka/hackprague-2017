@@ -7,7 +7,7 @@
     "lint": "eslint src",
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.production.js",
-    "postbuild": "copyfiles index.html dist"
+    "postbuild": "copyfiles index.html dist && cp static/* dist/static/"
   },
   "repository": {
     "type": "git",
@@ -48,6 +48,7 @@
     "postcss-loader": "^2.0.6",
     "react-hot-loader": "^3.0.0-beta.6",
     "rimraf": "^2.6.0",
+    "spdx-license-ids": "^2.0.1",
     "style-loader": "^0.18.2",
     "webpack": "^2.2.0",
     "webpack-dev-server": "^2.2.0"
@@ -67,6 +68,7 @@
     "react-router-dom": "^4.1.1",
     "reactstrap": "^4.6.2",
     "redux": "^3.7.0",
+    "shortid": "^2.2.8",
     "toastr": "^2.1.2",
     "uuid": "^3.1.0",
     "validator": "^7.0.0"

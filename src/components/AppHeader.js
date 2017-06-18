@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
   Collapse,
   Container,
@@ -44,7 +45,10 @@ class AppHeader extends Component {
         <Navbar color="inverse" inverse toggleable>
           <Container>
             <NavbarToggler right onClick={this.toggle} />
-            <NavbarBrand href="/">kaboard</NavbarBrand>
+            <Link className="navbar-brand" to="/">
+              kaboard
+            </Link>
+
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <HeaderLink to="/">Home</HeaderLink>

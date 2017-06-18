@@ -1,6 +1,7 @@
 import React from "react";
 import R from "ramda";
 import uuid from "uuid";
+import shortid from "shortid";
 import isEmail from "validator/lib/isEmail";
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -281,6 +282,7 @@ class Board extends React.Component {
     const { match } = this.props;
     const boardId = match.params.id;
     const id = uuid.v4();
+
     this.setState(prevstate => ({
       ...prevstate,
       checkpoints: [
@@ -289,7 +291,7 @@ class Board extends React.Component {
           id,
           title: prevstate.checkpoint.title,
           score: parseInt(prevstate.checkpoint.score),
-          code: R.takeLast(2, boardId) + R.takeLast(3, id)
+          code: shortid.generate()
         }
       ],
       checkpoint: {
@@ -336,7 +338,9 @@ class Board extends React.Component {
       ? this.state.checkpoints
       : [],
     units: this.state.units,
-    email: this.state.email
+    email: this.state.email,
+    public_code: shortid.generate(),
+    admin_code: shortid.generate()
   });
 
   updateBoard = () => {
