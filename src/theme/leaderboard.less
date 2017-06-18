@@ -10,20 +10,9 @@
     border-top: 0;
     padding: 0;
 
-    &.in-card {
-        border-radius: 5px;
-        .top {
-            .top-radius;
-            .overlay {
-                .top-radius;
-                padding-top: 70px;
-            }
-        }
-    }
-
     .top {
         margin-bottom: 20px;
-        background-size: 100%;
+        background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
         background-color: @dark;
@@ -98,7 +87,20 @@
 
         .top {
             .overlay {
-                padding-top: 150px;
+                padding-top: 120px;
+            }
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    .leaderboard.in-card {
+        border-radius: 5px;
+        .top {
+            .top-radius;
+            .overlay {
+                .top-radius;
+                padding: 80px 10px 10px;
             }
         }
     }

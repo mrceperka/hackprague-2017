@@ -153,31 +153,32 @@ class Home extends React.Component {
           </Jumbotron>
 
         </div>
-        <div>
+        <Container className="trending">
           <Row>
-            <Col xs={12}>Trending</Col>
+            <Col xs={12} className="h4 text-center">Trending</Col>
             {R.keys(this.state.boards).map((id, i) => {
               const board = this.state.boards[id];
               return (
-                <Col key={i} xs={12} md={3}>
+                <Col key={i} xs={12} lg={4}>
                   <Leaderboard
                     users={R.take(
                       3,
                       R.sort(
                         (a, b) =>
-                          board.sort === "ASC"
+                          (board.sort === "ASC"
                             ? a.score - b.score
-                            : b.score - a.score,
+                            : b.score - a.score),
                         getUsers(board)
                       )
                     )}
                     board={board}
+                    inCard={true}
                   />
                 </Col>
               );
             })}
           </Row>
-        </div>
+        </Container>
       </div>
     );
   }

@@ -2,10 +2,11 @@ import React from "react";
 import R from "ramda";
 import { Col, Row, Button, ListGroup, ListGroupItem } from "reactstrap";
 
-function Leaderboard({ users, board, updateScoreOrShowModal }) {
+function Leaderboard({ users, board, updateScoreOrShowModal, inCard }) {
   const topThree = R.take(3, users);
+  const inCardClass = inCard ? " in-card" : "";
   return (
-    <div className="leaderboard">
+    <div className={"leaderboard" + inCardClass}>
       <LeaderboardHeader board={board} />
       <TopThree
         first={topThree[0]}
