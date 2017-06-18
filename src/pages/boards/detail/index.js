@@ -163,7 +163,7 @@ class BoardDetail extends React.Component {
   render = () => {
     const { board } = this.props;
     return isLoaded(board)
-      ? isEmpty(board) ? this.renderEmpty() : this.renderLeaderBoard(board)
+      ? isEmpty(board) ? this.renderEmpty() : this.renderLeaderBoard()
       : this.renderWaiting();
   };
 
@@ -312,9 +312,11 @@ export default compose(
       }
     ];
   }),
-  connect(({ firebase }, ownProps) => {
+  connect(({ firebase }, { match }) => {
+    const boards = dataToJS(firebase, "boards");
+    const id = R.keys(dataToJS(firebase, "boards"))[0];
     return {
-      board: dataToJS(firebase, "boards")
+      board: boards ? boards[id] : null
     };
   })
 )(BoardDetail);

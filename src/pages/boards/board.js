@@ -12,6 +12,17 @@ import {
   dataToJS
 } from "react-redux-firebase";
 
+import {
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText,
+  Col,
+  Row
+} from "reactstrap";
+
 import { getCheckpoints } from "../../selectors/board";
 
 class Board extends React.Component {
@@ -45,199 +56,211 @@ class Board extends React.Component {
 
   render() {
     return (
-      <div className="box d-col ai-c fb-100">
-        <div className="header">
-          {this.isEdit() ? "Edit board" : "New board"}
-        </div>
-        <div className="box d-col">
-          <div className="box d-col">
-            <div>
-              Tell us your email address, please
+      <Row>
+        <Col>
+          <Form>
+            <div className="header">
+              {this.isEdit() ? "Edit board" : "New board"}
             </div>
-            <div>
-              <input
-                type="email"
-                name="email"
-                value={this.state.email}
-                onChange={e =>
-                  this.handleStringChange("email", e.target.value, true)}
-              />
-            </div>
-          </div>
-
-          <div className="box d-col">
-            <div>
-              Name your board
-            </div>
-            <div>
-              <input
-                type="text"
-                name="title"
-                value={this.state.title}
-                onChange={e =>
-                  this.handleStringChange("title", e.target.value, true)}
-              />
-            </div>
-          </div>
-
-          <div className="box d-col">
-            <div className="label">
-              Should it be private or publicly discoverable?
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="is_discoverable"
-                checked={this.state.is_discoverable === true}
-                onChange={() => this.handleAnyChange("is_discoverable", true)}
-              />
-              Public
-              <input
-                type="radio"
-                name="is_discoverable"
-                checked={this.state.is_discoverable === false}
-                onChange={() => this.handleAnyChange("is_discoverable", false)}
-              />
-              Private
-            </div>
-          </div>
-          <div className="box d-col">
-            <div>
-              Select your theme
-            </div>
-            <div>
-              <select
-                onChange={e => this.handleAnyChange("theme", e.target.value)}
-                value={this.state.theme}
-              >
-                <option value="dark">Dark</option>
-                <option value="light">Light</option>
-              </select>
-            </div>
-          </div>
-          <div className="box d-col">
-            <div>
-              Give some short description to your board
-            </div>
-            <div>
-              <textarea
-                name="desc"
-                value={this.state.desc}
-                onChange={e => this.handleAnyChange("desc", e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="box d-col">
-            <div>
-              And now select you board type
-            </div>
-            <div>
-              <select
-                onChange={e => this.handleAnyChange("type", e.target.value)}
-                value={this.state.type}
-              >
-                <option value="basic">Basic</option>
-                <option value="checkpoints">Checkpoints</option>
-              </select>
-            </div>
-          </div>
-          {this.state.type === "basic" &&
-            <div>
-              <div className="box d-col">
-                <div className="label">
-                  Is it admin protected to change scores?
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    name="admin_approval"
-                    checked={this.state.admin_approval === true}
-                    onChange={() =>
-                      this.handleAnyChange("admin_approval", true)}
-                  />
-                  Yes
-                  <input
-                    type="radio"
-                    name="admin_approval"
-                    checked={this.state.admin_approval === false}
-                    onChange={() =>
-                      this.handleAnyChange("admin_approval", false)}
-                  />
-                  No
-                </div>
-              </div>
-
-              <div className="box d-col">
-                <div>
-                  Write down units of achievements
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    name="units"
-                    value={this.state.units}
-                    onChange={e =>
-                      this.handleAnyChange("units", e.target.value, true)}
-                  />
-                </div>
-              </div>
-            </div>}
-
-          {this.state.type === "checkpoints" &&
             <div className="box d-col">
+              <FormGroup>
+                <Label for="email_id">Tell us your email address, please</Label>
+                <Input
+                  type="email"
+                  id="email_id"
+                  name="email"
+                  value={this.state.email}
+                  onChange={e =>
+                    this.handleStringChange("email", e.target.value, true)}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <Label for="title_id"> Name your board</Label>
+                <Input
+                  type="text"
+                  name="title"
+                  id="title_id"
+                  value={this.state.title}
+                  onChange={e =>
+                    this.handleStringChange("title", e.target.value, true)}
+                />
+              </FormGroup>
+
+              <FormGroup tag="fieldset" row>
+                <legend className="col-form-legend">
+                  Should it be private or publicly discoverable?
+                </legend>
+
+                <Col sm={10}>
+                  <FormGroup check>
+                    <Label check>
+                      <Input
+                        type="radio"
+                        name="is_discoverable"
+                        checked={this.state.is_discoverable === true}
+                        onChange={() =>
+                          this.handleAnyChange("is_discoverable", true)}
+                      />
+                      Public
+                    </Label>
+
+                  </FormGroup>
+                  <FormGroup check>
+                    <Label check>
+                      <Input
+                        type="radio"
+                        name="is_discoverable"
+                        checked={this.state.is_discoverable === false}
+                        onChange={() =>
+                          this.handleAnyChange("is_discoverable", false)}
+                      />
+                      Private
+                    </Label>
+                  </FormGroup>
+                </Col>
+              </FormGroup>
+
               <div className="box d-col">
-                {R.addIndex(R.map)(
-                  (item, i) =>
-                    <div className="box" key={i}>
-                      <div>{item.title}</div>
-                      <div>{"Score: " + item.score}</div>
-                      <div onClick={() => this.removeCheckpoint(item.id)}>
-                        Delete
+                <div>
+                  Select your theme
+                </div>
+                <div>
+                  <select
+                    onChange={e =>
+                      this.handleAnyChange("theme", e.target.value)}
+                    value={this.state.theme}
+                  >
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                  </select>
+                </div>
+              </div>
+              <div className="box d-col">
+                <div>
+                  Give some short description to your board
+                </div>
+                <div>
+                  <textarea
+                    name="desc"
+                    value={this.state.desc}
+                    onChange={e => this.handleAnyChange("desc", e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="box d-col">
+                <div>
+                  And now select you board type
+                </div>
+                <div>
+                  <select
+                    onChange={e => this.handleAnyChange("type", e.target.value)}
+                    value={this.state.type}
+                  >
+                    <option value="basic">Basic</option>
+                    <option value="checkpoints">Checkpoints</option>
+                  </select>
+                </div>
+              </div>
+              {this.state.type === "basic" &&
+                <div>
+                  <div className="box d-col">
+                    <div className="label">
+                      Is it admin protected to change scores?
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        name="admin_approval"
+                        checked={this.state.admin_approval === true}
+                        onChange={() =>
+                          this.handleAnyChange("admin_approval", true)}
+                      />
+                      Yes
+                      <input
+                        type="radio"
+                        name="admin_approval"
+                        checked={this.state.admin_approval === false}
+                        onChange={() =>
+                          this.handleAnyChange("admin_approval", false)}
+                      />
+                      No
+                    </div>
+                  </div>
+
+                  <div className="box d-col">
+                    <div>
+                      Write down units of achievements
+                    </div>
+                    <div>
+                      <input
+                        type="text"
+                        name="units"
+                        value={this.state.units}
+                        onChange={e =>
+                          this.handleAnyChange("units", e.target.value, true)}
+                      />
+                    </div>
+                  </div>
+                </div>}
+
+              {this.state.type === "checkpoints" &&
+                <div className="box d-col">
+                  <div className="box d-col">
+                    {R.addIndex(R.map)(
+                      (item, i) =>
+                        <div className="box" key={i}>
+                          <div>{item.title}</div>
+                          <div>{"Score: " + item.score}</div>
+                          <div onClick={() => this.removeCheckpoint(item.id)}>
+                            Delete
+                          </div>
+                        </div>,
+                      this.state.checkpoints
+                    )}
+                  </div>
+                  <div className="box d-col">
+                    <div className="box d-col">
+                      <div className="label">Title</div>
+                      <div>
+                        <input
+                          type="text"
+                          name="checkpoint_title"
+                          value={this.state.checkpoint.title}
+                          onChange={this.onCheckpointTitleChange}
+                        />
                       </div>
-                    </div>,
-                  this.state.checkpoints
-                )}
-              </div>
-              <div className="box d-col">
-                <div className="box d-col">
-                  <div className="label">Title</div>
-                  <div>
-                    <input
-                      type="text"
-                      name="checkpoint_title"
-                      value={this.state.checkpoint.title}
-                      onChange={this.onCheckpointTitleChange}
-                    />
+                    </div>
+                    <div className="box d-col">
+                      <div className="label">Score</div>
+                      <div>
+                        <input
+                          name="checkpoint_score"
+                          type="number"
+                          value={this.state.checkpoint.score}
+                          onChange={this.onCheckpointScoreChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="spacer spacer-small" />
+                    <div className="box">
+                      <div onClick={this.addCheckPoint}>Add</div>
+                    </div>
                   </div>
-                </div>
-                <div className="box d-col">
-                  <div className="label">Score</div>
-                  <div>
-                    <input
-                      name="checkpoint_score"
-                      type="number"
-                      value={this.state.checkpoint.score}
-                      onChange={this.onCheckpointScoreChange}
-                    />
-                  </div>
-                </div>
-                <div className="spacer spacer-small" />
-                <div className="box">
-                  <div onClick={this.addCheckPoint}>Add</div>
-                </div>
+                </div>}
+
+              <div className="spacer" />
+              <div className="spacer" />
+              <div className="box">
+                {this.isEdit()
+                  ? <div onClick={this.updateBoard}>Edit</div>
+                  : <div onClick={this.addBoard}>Add</div>}
+
               </div>
-            </div>}
-
-          <div className="spacer" />
-          <div className="spacer" />
-          <div className="box">
-            {this.isEdit()
-              ? <div onClick={this.updateBoard}>Edit</div>
-              : <div onClick={this.addBoard}>Add</div>}
-
-          </div>
-        </div>
-      </div>
+            </div>
+          </Form>
+        </Col>
+      </Row>
     );
   }
 
