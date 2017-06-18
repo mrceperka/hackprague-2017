@@ -1,15 +1,42 @@
 import React from "react";
 import R from "ramda";
 import { Col, Row, Button, ListGroup, ListGroupItem } from "reactstrap";
-import { isBasic, getCheckpoints } from "../selectors/board";
+import {
+  isBasic,
+  getCheckpoints,
+  getCheckpointsCodes
+} from "../selectors/board";
+
+const getUserCheckpointCodes = ({ firebase, user, board }) => {
+  user.__do_not_checkpoints_codes = [];
+  firebase
+    .ref("/boards/" + board.id + "/records/" + user.id)
+    .on("value", snapshot => {
+      const vals = snapshot.val();
+
+      if (vals) {
+        const checkpoint_ids = R.map(
+          id => vals[id].checkpoint_id,
+          R.keys(vals)
+        );
+
+        user.__do_not_checkpoints_codes = R.filter(
+          ch_id => ch_id != null,
+          checkpoint_ids
+        );
+      }
+    });
+};
 
 function Leaderboard({ users, board, firebase, inCard }) {
   const topThree = R.take(3, users);
   const inCardClass = inCard ? " in-card" : "";
   return (
     <div className={"leaderboard" + inCardClass}>
-      <LeaderboardHeader board={board} firebase={firebase} />
+      <LeaderboardHeader board={board} />
       <TopThree
+        board={board}
+        firebase={firebase}
         first={topThree[0]}
         second={topThree[1]}
         third={topThree[2]}
@@ -17,29 +44,9 @@ function Leaderboard({ users, board, firebase, inCard }) {
       />
       <ListGroup>
         {users.map((user, i) => {
-          const boardCheckpointIds = R.map(
-            chp => chp.id,
-            getCheckpoints(board)
-          );
-          user.__do_not_checkpoints_codes = [];
-
-          firebase
-            .ref("/boards/" + board.id + "/records/" + user.id)
-            .on("value", snapshot => {
-              const vals = snapshot.val();
-
-              if (vals) {
-                const checkpoint_ids = R.map(
-                  id => vals[id].checkpoint_id,
-                  R.keys(vals)
-                );
-
-                user.__do_not_checkpoints_codes = R.filter(
-                  ch_id => ch_id != null,
-                  checkpoint_ids
-                );
-              }
-            });
+          const boardCheckpointIds = getCheckpointsCodes(board);
+          // MUTATION
+          getUserCheckpointCodes({ firebase, user, board });
 
           return i > 2
             ? <ListGroupItem key={i} className="justify-content-between">
@@ -64,7 +71,6 @@ function Leaderboard({ users, board, firebase, inCard }) {
                         {user.score} {board.units}
                       </span>
                     : <span>
-
                         {
                           R.intersection(
                             user.__do_not_checkpoints_codes,
@@ -105,13 +111,26 @@ export function LeaderboardHeader({ board }) {
   );
 }
 
-function TopThree({ first, second, third, units }) {
+function TopThree({ first, second, third, units, firebase, board }) {
+  if (first) {
+    // MUTATION
+    getUserCheckpointCodes({ firebase, user: first, board });
+  }
+  if (second) {
+    // MUTATION
+    getUserCheckpointCodes({ firebase, user: second, board });
+  }
+  if (third) {
+    // MUTATION
+    getUserCheckpointCodes({ firebase, user: third, board });
+  }
   return (
     <Row>
       <Col xs={12} lg={{ size: 10, offset: 1 }}>
         <Row>
           {second &&
             <TopItem
+              board={board}
               pos={2}
               user={second}
               units={units}
@@ -120,6 +139,7 @@ function TopThree({ first, second, third, units }) {
 
           {first &&
             <TopItem
+              board={board}
               pos={1}
               user={first}
               units={units}
@@ -128,6 +148,7 @@ function TopThree({ first, second, third, units }) {
 
           {third &&
             <TopItem
+              board={board}
               pos={3}
               user={third}
               units={units}
@@ -139,12 +160,28 @@ function TopThree({ first, second, third, units }) {
   );
 }
 
-function TopItem({ user, src, pos, units }) {
+function TopItem({ user, src, pos, units, board }) {
+  const boardCheckpointIds = getCheckpointsCodes(board);
   return (
     <Col xs={4} className={"text-center top-item top-item" + pos}>
       <img style={{ width: 100 }} src={src} />
       <h4>{user.name}</h4>
-      <p>{user.score} {units}</p>
+      <p>
+        {isBasic(board)
+          ? <span>{user.score} {units}</span>
+          : <span>
+              {
+                R.intersection(
+                  user.__do_not_checkpoints_codes,
+                  boardCheckpointIds
+                ).length
+              }
+              /
+              {boardCheckpointIds.length}
+              {" "}
+              ({user.score} {board.units})
+            </span>}
+      </p>
       <div className={"pod pod" + pos}>
         {pos}
       </div>
