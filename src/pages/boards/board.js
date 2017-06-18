@@ -1,6 +1,7 @@
 import React from "react";
 import R from "ramda";
 import uuid from "uuid";
+import shortid from "shortid";
 import isEmail from "validator/lib/isEmail";
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -336,7 +337,9 @@ class Board extends React.Component {
       ? this.state.checkpoints
       : [],
     units: this.state.units,
-    email: this.state.email
+    email: this.state.email,
+    public_code: shortid.generate(),
+    admin_code: shortid.generate()
   });
 
   updateBoard = () => {
