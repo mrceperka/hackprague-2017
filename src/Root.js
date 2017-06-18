@@ -19,6 +19,11 @@ export default () => {
         <div>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route
+              exact
+              path="/__fu_bar"
+              component={() => <Boards isAdmin={true} />}
+            />
             <Route exact path="/boards" component={Boards} />
             <Route exact path="/boards/new" component={NewBoard} />
             <Route exact path="/boards/:id" component={BoardDetail} />
