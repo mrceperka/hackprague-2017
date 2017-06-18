@@ -83,6 +83,7 @@ class Board extends React.Component {
                       <i className="material-icons">email</i>
                     </InputGroupAddon>
                     <Input
+                      autoFocus
                       type="email"
                       id="email_id"
                       name="email"

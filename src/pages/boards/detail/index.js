@@ -158,7 +158,7 @@ class BoardDetail extends React.Component {
 
   sortByScore = (a, b) => {
     const { board } = this.props;
-    return board.sort === "ASC" ? a.score > b.score : a.score < b.score;
+    return board.sort === "ASC" ? a.score - b.score : b.score - a.score;
   };
 
   getSorted = () => {
