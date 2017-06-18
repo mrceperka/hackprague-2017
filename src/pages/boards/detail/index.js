@@ -184,7 +184,11 @@ class BoardDetail extends React.Component {
       <div>
         <AppHeader />
         <Container>
-          <PageTitle>{board.title}</PageTitle>
+          <PageTitle>
+            <div style={{ background: "url(" + board.img + ")" }}>
+              {board.title}
+            </div>
+          </PageTitle>
           <Row>
             <Col>
               <img style={{ width: 100 }} src="/static/trophy.svg" />

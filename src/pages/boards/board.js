@@ -33,6 +33,7 @@ class Board extends React.Component {
     title: "",
     email: "",
     desc: "",
+    img: "",
     theme: "dark",
     units: "points",
     type: "basic",
@@ -78,7 +79,7 @@ class Board extends React.Component {
             </FormGroup>
 
             <FormGroup>
-              <Label for="title_id"> Name your board</Label>
+              <Label for="title_id">Name your board</Label>
               <Input
                 type="text"
                 name="title"
@@ -86,6 +87,17 @@ class Board extends React.Component {
                 value={this.state.title}
                 onChange={e =>
                   this.handleStringChange("title", e.target.value, true)}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="image_id">Cover image link</Label>
+              <Input
+                type="text"
+                name="image"
+                id="image_id"
+                value={this.state.img}
+                onChange={e =>
+                  this.handleStringChange("img", e.target.value, true)}
               />
             </FormGroup>
 
@@ -361,6 +373,7 @@ class Board extends React.Component {
       admin_approval: board.admin_approve_required,
       units: board.units,
       email: board.email,
+      img: board.img ? board.img : "",
 
       //bonus
       type: R.keys(board.checkpoints).length > 0 ? "checkpoints" : "basic"
@@ -378,7 +391,8 @@ class Board extends React.Component {
     units: this.state.units,
     email: this.state.email,
     public_code: shortid.generate(),
-    admin_code: shortid.generate()
+    admin_code: shortid.generate(),
+    img: this.state.img
   });
 
   updateBoard = () => {
