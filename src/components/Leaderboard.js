@@ -183,9 +183,15 @@ function TopThree({ first, second, third, units, firebase, board, inCard }) {
 function TopItem({ user, src, pos, units, board, inCard }) {
   const boardCheckpointIds = getCheckpointsCodes(board);
   return (
-    <Col xs={4} className={"text-center top-item top-item" + pos}>
+    <Col
+      title={user.name}
+      xs={4}
+      className={"text-center top-item top-item" + pos}
+    >
       <img src={src} />
-      <h4>{user.name}</h4>
+      <h4 style={{ overflow: "hidden", whiteSpace: "nowrap" }}>
+        {user.name}
+      </h4>
       <p>
         {isBasic(board) || inCard
           ? <span>{user.score} {units}</span>
