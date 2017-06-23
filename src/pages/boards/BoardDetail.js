@@ -28,11 +28,11 @@ import { ShareButtons, ShareCounts, generateShareIcon } from "react-share";
 const { FacebookShareButton } = ShareButtons;
 const FacebookIcon = generateShareIcon("facebook");
 
-import AppHeader from "../../../components/AppHeader";
-import PageTitle from "../../../components/PageTitle";
-import Leaderboard from "../../../components/Leaderboard";
+import AppHeader from "../../components/AppHeader";
+import PageTitle from "../../components/PageTitle";
+import Leaderboard from "../../components/Leaderboard";
 
-import { getUsers, getCheckpoints, isBasic } from "../../../selectors/board";
+import { getUsers, getCheckpoints, isBasic } from "../../selectors/board";
 
 class BoardDetail extends React.Component {
   state = {
