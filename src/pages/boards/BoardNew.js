@@ -34,7 +34,7 @@ import PageTitle from "../../components/PageTitle";
 
 import { getCheckpoints } from "../../selectors/board";
 
-class Board extends React.Component {
+class BoardNew extends React.Component {
   state = {
     title: "",
     email: "",
@@ -218,7 +218,7 @@ class Board extends React.Component {
                   <div className="box d-col">
                     <ListGroup>
                       {R.addIndex(R.map)(
-                        (item, i) =>
+                        (item, i) => (
                           <ListGroupItem
                             className="justify-content-between"
                             key={i}
@@ -233,7 +233,8 @@ class Board extends React.Component {
                             >
                               <i className="material-icons">delete</i>
                             </div>
-                          </ListGroupItem>,
+                          </ListGroupItem>
+                        ),
                         this.state.checkpoints
                       )}
                     </ListGroup>
@@ -524,8 +525,7 @@ class Board extends React.Component {
     }
 
     if (
-      this.state.type === "checkpoints" &&
-      this.state.checkpoints.length === 0
+      this.state.type === "checkpoints" && this.state.checkpoints.length === 0
     ) {
       window.toastr.error("Fill some checkpoints please");
       return false;
@@ -541,4 +541,4 @@ class Board extends React.Component {
   isEdit = () => this.props.board != null;
 }
 
-export default compose(firebaseConnect())(Board);
+export default compose(firebaseConnect())(BoardNew);

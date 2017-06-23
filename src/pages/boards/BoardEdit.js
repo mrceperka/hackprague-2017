@@ -10,15 +10,15 @@ import {
 
 import { Row, Col } from "reactstrap";
 
-import Board from "../board";
-import Loading from "../../../components/Loading";
+import BoardNew from "./BoardNew";
+import Loading from "../../components/Loading";
 
 const Edit = ({ board, ...rest }) =>
-  isLoaded(board)
+  (isLoaded(board)
     ? isEmpty(board)
-      ? <div>Board does not exist</div>
-      : <Board board={board} {...rest} />
-    : <Loading />;
+        ? <div>Board does not exist</div>
+        : <BoardNew board={board} {...rest} />
+    : <Loading />);
 
 export default compose(
   firebaseConnect(["/boards"]),
