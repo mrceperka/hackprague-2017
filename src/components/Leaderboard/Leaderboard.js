@@ -12,30 +12,15 @@ import {
   getCheckpointsCodes
 } from "../../selectors/board";
 
-const getUserCheckpointCodes = ({ firebase, user, board }) => {
-  user.__do_not_checkpoints_codes = [];
-  firebase
-    .ref("/boards/" + board.id + "/records/" + user.id)
-    .on("value", snapshot => {
-      const vals = snapshot.val();
+export default ({ users, board, firebase, inCard }) => {
+  const sortedUsers = R.sort(
+    (a, b) => (board.sort === "ASC" ? a.score - b.score : b.score - a.score),
+    users
+  );
 
-      if (vals) {
-        const checkpoint_ids = R.map(
-          id => vals[id].checkpoint_id,
-          R.keys(vals)
-        );
-
-        user.__do_not_checkpoints_codes = R.filter(
-          ch_id => ch_id != null,
-          checkpoint_ids
-        );
-      }
-    });
-};
-
-function Leaderboard({ users, board, firebase, inCard }) {
-  const topThree = R.take(3, users);
+  const topThree = R.take(3, sortedUsers);
   const inCardClass = inCard ? " in-card" : "";
+
   return (
     <div className={"leaderboard" + inCardClass}>
       <Header board={board} firebase={firebase} inCard={inCard} />
@@ -51,8 +36,6 @@ function Leaderboard({ users, board, firebase, inCard }) {
       <ListGroup>
         {users.map((user, i) => {
           const boardCheckpointIds = getCheckpointsCodes(board);
-          // MUTATION
-          getUserCheckpointCodes({ firebase, user, board });
 
           return i > 2
             ? <ListGroupItem key={i} className="justify-content-between">
@@ -95,6 +78,4 @@ function Leaderboard({ users, board, firebase, inCard }) {
       </ListGroup>
     </div>
   );
-}
-
-export default Leaderboard;
+};

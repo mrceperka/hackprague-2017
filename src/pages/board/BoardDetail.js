@@ -30,7 +30,7 @@ const { FacebookShareButton } = ShareButtons;
 const FacebookIcon = generateShareIcon("facebook");
 
 import PageTitle from "../../components/Page/Title";
-import Leaderboard from "../../components/Leaderboard";
+import Leaderboard from "../../containers/Leaderboard";
 
 import { getUsers, getCheckpoints, isBasic } from "../../selectors/board";
 
@@ -166,17 +166,6 @@ class BoardDetail extends React.Component {
     }
   };
 
-  sortByScore = (a, b) => {
-    const { board } = this.props;
-    return board.sort === "ASC" ? a.score - b.score : b.score - a.score;
-  };
-
-  getSorted = () => {
-    const { board } = this.props;
-    const top = R.pipe(getUsers, R.sort(this.sortByScore));
-    return top(board);
-  };
-
   render = () => {
     const { board } = this.props;
     return isLoaded(board)
@@ -208,11 +197,7 @@ class BoardDetail extends React.Component {
     return (
       <div>
         <Container className="leaderboard-detail">
-          <Leaderboard
-            users={this.getSorted()}
-            board={board}
-            firebase={this.props.firebase}
-          />
+          <Leaderboard board={board} />
 
           <Modal isOpen={this.state.show_modal} toggle={this.toggleNameModal}>
             <ModalHeader>
@@ -276,7 +261,15 @@ class BoardDetail extends React.Component {
 }
 
 export default compose(
-  firebaseConnect(({ match }) => {
+  connect(({ firebase }) => {
+    const boards = orderedToJS(firebase, "boards");
+    const first = boards ? boards[0] : null;
+    return {
+      board: first ? { ...first, id: first.key } : null,
+      users: orderedToJS(firebase, "boardUsers")
+    };
+  }),
+  firebaseConnect(({ match, board }) => {
     return [
       {
         path: "/boards",
@@ -285,14 +278,11 @@ export default compose(
           "equalTo=" + match.params.id,
           "limitToFirst=1"
         ]
+      },
+      {
+        path: "/users/" + (isEmpty(board) ? 0 : board.id),
+        storeAs: "boardUsers"
       }
     ];
-  }),
-  connect(({ firebase }) => {
-    const boards = orderedToJS(firebase, "/boards");
-    const first = boards ? boards[0] : null;
-    return {
-      board: first ? { ...first, id: first.key } : null
-    };
   })
 )(BoardDetail);

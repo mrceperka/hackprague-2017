@@ -3,8 +3,9 @@ import R from "ramda";
 import { Col } from "reactstrap";
 import { isBasic, getCheckpointsCodes } from "../../../selectors/board";
 
-export default ({ user, src, pos, units, board, inCard }) => {
+export default ({ user, src, pos, board, inCard }) => {
   const boardCheckpointIds = getCheckpointsCodes(board);
+  const units = board.units;
   return (
     <Col
       title={user.name}

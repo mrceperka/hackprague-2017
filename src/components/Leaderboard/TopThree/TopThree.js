@@ -13,7 +13,6 @@ export default ({ first, second, third, units, board, inCard }) => {
               board={board}
               pos={2}
               user={second}
-              units={units}
               inCard={inCard}
               src="/static/silver-star.svg"
             />}
@@ -23,7 +22,6 @@ export default ({ first, second, third, units, board, inCard }) => {
               board={board}
               pos={1}
               user={first}
-              units={units}
               inCard={inCard}
               src="/static/gold-star.svg"
             />}
@@ -33,7 +31,6 @@ export default ({ first, second, third, units, board, inCard }) => {
               board={board}
               pos={3}
               user={third}
-              units={units}
               inCard={inCard}
               src="/static/bronze-star.svg"
             />}
