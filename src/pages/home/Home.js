@@ -1,14 +1,5 @@
-import R from "ramda";
 import React from "react";
-import { compose } from "redux";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  firebaseConnect,
-  dataToJS,
-  isEmpty,
-  populatedDataToJS
-} from "react-redux-firebase";
 import { Button, Jumbotron, Container, Row, Col } from "reactstrap";
 
 import Trending from "../../containers/Trending";
@@ -36,11 +27,13 @@ export default props => {
                 <SearchByCode history={props.history} />
               </Col>
             </Row>
+
             <Row>
               <Col className="text-center or lead">
                 or
               </Col>
             </Row>
+
             <Row>
               <Col className="text-center">
                 <Link to="/boards/new">
@@ -51,9 +44,7 @@ export default props => {
               </Col>
             </Row>
           </Container>
-
         </Jumbotron>
-
       </div>
       <Trending />
     </div>
