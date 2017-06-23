@@ -14,6 +14,7 @@ const initialState = {};
 
 export default createStoreWithFirebase(
   rootReducer,
-  initialState,
-  applyMiddleware(logger)
+  initialState
+
+  //  applyMiddleware(logger)
 );
