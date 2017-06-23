@@ -17,9 +17,9 @@ import {
   Col
 } from "reactstrap";
 
-import AppHeader from "../../components/AppHeader";
 import Leaderboard from "../../components/Leaderboard";
 
+import withAuthInfo from "../../hoc/withAuthInfo";
 import { getUsers } from "../../selectors/board";
 
 class Home extends React.Component {
@@ -88,7 +88,6 @@ class Home extends React.Component {
     return (
       <div>
         <div className="main-header">
-          <AppHeader />
           <Jumbotron>
             <Container>
               <Row>
@@ -166,9 +165,9 @@ class Home extends React.Component {
                       3,
                       R.sort(
                         (a, b) =>
-                          (board.sort === "ASC"
+                          board.sort === "ASC"
                             ? a.score - b.score
-                            : b.score - a.score),
+                            : b.score - a.score,
                         getUsers(board)
                       )
                     )}
@@ -193,5 +192,6 @@ export default compose(
     return {
       trending: dataToJS(firebase, "/trending")
     };
-  })
+  }),
+  withAuthInfo()
 )(Home);

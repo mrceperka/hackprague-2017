@@ -20,8 +20,9 @@ import {
   Row,
   Col
 } from "reactstrap";
-import AppHeader from "../../components/AppHeader";
-import PageTitle from "../../components/PageTitle";
+
+import PageTitle from "../../components/Page/Title";
+import Page from "../../components/Page";
 
 class Boards extends React.Component {
   renderEmpty = () => <div>It looks that we are out of boards...</div>;
@@ -53,15 +54,12 @@ class Boards extends React.Component {
     const { boards } = this.props;
 
     return (
-      <div>
-        <AppHeader />
-        <Container>
-          <PageTitle>Boards</PageTitle>
-          {isLoaded(boards)
-            ? isEmpty(boards) ? this.renderEmpty() : this.renderLeaderBoard()
-            : this.renderWaiting()}
-        </Container>
-      </div>
+      <Page>
+        <PageTitle>Boards</PageTitle>
+        {isLoaded(boards)
+          ? isEmpty(boards) ? this.renderEmpty() : this.renderLeaderBoard()
+          : this.renderWaiting()}
+      </Page>
     );
   }
 
