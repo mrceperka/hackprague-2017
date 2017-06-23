@@ -506,11 +506,12 @@ class BoardNew extends React.Component {
 
   updateBoard = () => {
     if (this.isBoardValid()) {
-      const { board, match } = this.props;
+      const { board, match, history } = this.props;
       const id = match.params.id;
-      this.props.firebase.update("/boards/" + id, this.boardToApi(), () =>
-        window.toastr.success("Updated")
-      );
+      this.props.firebase.update("/boards/" + id, this.boardToApi(), () => {
+        window.toastr.success("Updated");
+        history.push("/boards/" + board.public_code);
+      });
     }
   };
 
