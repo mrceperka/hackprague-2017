@@ -289,7 +289,7 @@ export default compose(
     ];
   }),
   connect(({ firebase }) => {
-    const boards = orderedToJS(firebase, "boards");
+    const boards = orderedToJS(firebase, "/boards");
     const first = boards ? boards[0] : null;
     return {
       board: first ? { ...first, id: first.key } : null
