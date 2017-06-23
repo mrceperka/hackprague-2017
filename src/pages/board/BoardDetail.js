@@ -29,8 +29,7 @@ import { ShareButtons, ShareCounts, generateShareIcon } from "react-share";
 const { FacebookShareButton } = ShareButtons;
 const FacebookIcon = generateShareIcon("facebook");
 
-import AppHeader from "../../components/AppHeader";
-import PageTitle from "../../components/PageTitle";
+import PageTitle from "../../components/Page/Title";
 import Leaderboard from "../../components/Leaderboard";
 
 import { getUsers, getCheckpoints, isBasic } from "../../selectors/board";
@@ -208,7 +207,6 @@ class BoardDetail extends React.Component {
     }
     return (
       <div>
-        <AppHeader />
         <Container className="leaderboard-detail">
           <Leaderboard
             users={this.getSorted()}

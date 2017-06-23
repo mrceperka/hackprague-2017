@@ -5,13 +5,14 @@ import { lifecycle } from "recompose";
 import { Container } from "reactstrap";
 import { Cookies } from "react-cookie";
 
+import Layout from "./components/Layout";
 import withAuthInfo from "./hoc/withAuthInfo";
 import { Home, BoardDetail, BoardNew, BoardEdit, BoardList } from "./pages";
 import { AUTH_COOKIE_NAME } from "./constants";
 
 const App = props =>
   <Router>
-    <div>
+    <Layout>
       <Switch>
         <Route exact path="/" component={Home} />
         <Route
@@ -24,12 +25,7 @@ const App = props =>
         <Route exact path="/boards/:id" component={BoardDetail} />
         <Route exact path="/boards/edit/:id" component={BoardEdit} />
       </Switch>
-      <Container className="footer text-center">
-        Created with <i className="material-icons">favorite</i> at
-        {" "}
-        <a href="http://hackprague.com/" target="_blank">HackPrague</a>
-      </Container>
-    </div>
+    </Layout>
   </Router>;
 
 export default R.compose(

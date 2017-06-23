@@ -17,7 +17,6 @@ import {
   Col
 } from "reactstrap";
 
-import AppHeader from "../../components/AppHeader";
 import Leaderboard from "../../components/Leaderboard";
 
 import withAuthInfo from "../../hoc/withAuthInfo";
@@ -89,7 +88,6 @@ class Home extends React.Component {
     return (
       <div>
         <div className="main-header">
-          <AppHeader />
           <Jumbotron>
             <Container>
               <Row>
