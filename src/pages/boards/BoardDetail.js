@@ -6,7 +6,8 @@ import {
   firebaseConnect,
   isLoaded,
   isEmpty,
-  dataToJS
+  dataToJS,
+  orderedToJS
 } from "react-redux-firebase";
 
 import {
@@ -281,15 +282,19 @@ export default compose(
     return [
       {
         path: "/boards",
-        queryParams: ["orderByChild=public_code", "equalTo=" + match.params.id]
+        queryParams: [
+          "orderByChild=public_code",
+          "equalTo=" + match.params.id,
+          "limitToFirst=1"
+        ]
       }
     ];
   }),
-  connect(({ firebase }, { match }) => {
-    const boards = dataToJS(firebase, "boards");
-    const id = R.keys(dataToJS(firebase, "boards"))[0];
+  connect(({ firebase }) => {
+    const boards = orderedToJS(firebase, "boards");
+    const first = boards ? boards[0] : null;
     return {
-      board: boards ? { ...boards[id], id } : null
+      board: first ? { ...first, id: first.key } : null
     };
   })
 )(BoardDetail);
