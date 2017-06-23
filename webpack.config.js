@@ -17,6 +17,7 @@ module.exports = {
     "babel-polyfill",
 
     "./src/index.js"
+
     // the entry point of our app
   ],
 
@@ -27,6 +28,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
 
     publicPath: "/static/"
+
     // necessary for HMR to know where to load the hot update chunks
   },
 
@@ -79,6 +81,7 @@ module.exports = {
     // prints more readable module names in the browser console on HMR updates
 
     new webpack.NoEmitOnErrorsPlugin()
+
     // do not emit compiled assets that include errors
   ],
 
@@ -90,6 +93,7 @@ module.exports = {
     // respond to 404s with index.html
 
     hot: true
+
     // enable HMR on the server
   }
 };
