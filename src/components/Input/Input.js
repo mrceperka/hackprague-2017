@@ -9,7 +9,7 @@ import {
 } from "reactstrap";
 import uuid from "uuid";
 
-class TextInput extends React.Component {
+class _Input extends React.Component {
   componentWillMount() {
     this.id = uuid.v4();
   }
@@ -60,4 +60,4 @@ class TextInput extends React.Component {
   }
 }
 
-export default TextInput;
+export default _Input;
