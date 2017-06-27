@@ -195,23 +195,14 @@ class BoardNew extends React.Component {
               <div className="spacer" />
 
               <FormGroup className="text-center">
-                {this.isEdit()
-                  ? <Button
-                      className="btn-block"
-                      size="lg"
-                      color="success"
-                      onClick={this.updateBoard}
-                    >
-                      Edit
-                    </Button>
-                  : <Button
-                      className="btn-block"
-                      size="lg"
-                      color="success"
-                      onClick={this.addBoard}
-                    >
-                      Add
-                    </Button>}
+                <Button
+                  className="btn-block"
+                  size="lg"
+                  color="success"
+                  onClick={this.isEdit() ? this.updateBoard : this.addBoard}
+                >
+                  {this.isEdit() ? "Edit" : "Add"}
+                </Button>
               </FormGroup>
             </Form>
           </Col>
