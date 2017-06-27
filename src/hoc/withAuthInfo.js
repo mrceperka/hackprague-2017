@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { getState } from "../selectors/user";
-import { setId, setLoggedIn } from "../actions/user";
+import { getState } from "../selectors/auth";
+import { setId, setLoggedIn } from "../actions/auth";
 
 export default () => Component => {
   class WithAuthInfo extends React.Component {
@@ -13,7 +13,7 @@ export default () => Component => {
 
   const connected = connect(
     state => ({
-      auth: getState(state)
+      authInfo: getState(state)
     }),
     {
       setId,

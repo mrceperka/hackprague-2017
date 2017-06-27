@@ -1,15 +1,23 @@
 const defaultState = {
   loggedIn: false,
-  id: null
+  id: null,
+  anonymous: true,
+  verified: false
 };
 
 const userReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case "USER_SET_LOGGED_IN": {
+    case "AUTH_SET_LOGGED_IN": {
       return { ...state, loggedIn: action.payload };
     }
-    case "USER_SET_ID": {
+    case "AUTH_SET_ID": {
       return { ...state, id: action.payload };
+    }
+    case "AUTH_SET_ANONYMOUS": {
+      return { ...state, anonymous: action.payload };
+    }
+    case "AUTH_SET_VERIFIED": {
+      return { ...state, verified: action.payload };
     }
     default:
       return state;

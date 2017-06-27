@@ -1,14 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import R from "ramda";
+import { connect } from "react-redux";
+import { firebaseConnect } from "react-redux-firebase";
 import { lifecycle } from "recompose";
 import { Container } from "reactstrap";
-import { Cookies } from "react-cookie";
 
 import Layout from "./components/Layout";
 import withAuthInfo from "./hoc/withAuthInfo";
 import { Home, BoardDetail, BoardNew, BoardEdit, BoardList } from "./pages";
 import { AUTH_COOKIE_NAME } from "./constants";
+import { startApp } from "./actions/app";
 
 const App = props =>
   <Router>
@@ -29,22 +31,13 @@ const App = props =>
   </Router>;
 
 export default R.compose(
+  firebaseConnect(),
   withAuthInfo(),
+  connect(null, { startApp }),
   lifecycle({
     componentDidMount() {
-      const { setLoggedIn, setId } = this.props;
-
-      if (typeof document !== "undefined") {
-        const cks = new Cookies();
-        const cookie = cks.get(AUTH_COOKIE_NAME);
-        if (cookie) {
-          // TODO, request firebase
-          setLoggedIn(true);
-          setId(cookie);
-        } else {
-          setLoggedIn(false);
-        }
-      }
+      const { startApp } = this.props;
+      startApp();
     }
   })
 )(App);
