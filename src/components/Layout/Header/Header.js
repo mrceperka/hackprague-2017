@@ -7,6 +7,7 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
+  NavText,
   NavItem,
   Button,
   Modal,
@@ -15,25 +16,16 @@ import {
   ModalHeader
 } from "reactstrap";
 
-class AppHeader extends Component {
-  constructor(props) {
-    super(props);
+import User from "../../../containers/User/MenuItem";
 
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false,
-      showAbout: false
-    };
-  }
-  toggle() {
+class AppHeader extends Component {
+  state = {
+    isOpen: false
+  };
+
+  toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
-    });
-  }
-
-  toggleAbout = () => {
-    this.setState({
-      showAbout: !this.state.showAbout
     });
   };
 
@@ -52,8 +44,11 @@ class AppHeader extends Component {
                 <HeaderLink to="/boards">
                   Boards
                 </HeaderLink>
+                <NavItem><User /></NavItem>
               </Nav>
+
             </Collapse>
+
           </Container>
         </Navbar>
       </div>
@@ -61,14 +56,11 @@ class AppHeader extends Component {
   }
 }
 
-function HeaderLink(props) {
-  return (
-    <NavItem>
-      <NavLink to={props.to} className="nav-link" activeClassName="active">
-        {props.children}
-      </NavLink>
-    </NavItem>
-  );
-}
+const HeaderLink = props =>
+  <NavItem>
+    <NavLink to={props.to} className="nav-link" activeClassName="active">
+      {props.children}
+    </NavLink>
+  </NavItem>;
 
 export default AppHeader;
