@@ -31,6 +31,7 @@ const FacebookIcon = generateShareIcon("facebook");
 
 import PageTitle from "../../components/Page/Title";
 import Leaderboard from "../../containers/Leaderboard";
+import { InputModal } from "../../components/Modal";
 
 import { getUsers, getCheckpoints, isBasic } from "../../selectors/board";
 
@@ -78,7 +79,7 @@ class BoardDetail extends React.Component {
 
             //push new user
             firebase.push(
-              "/boards/" + boardID + "/users",
+              "/users/" + boardID,
               {
                 name: this.state.name,
                 score: 0
@@ -140,7 +141,7 @@ class BoardDetail extends React.Component {
     const user = this.getCurrentBoardUser();
 
     firebase.push(
-      "/boards/" + boardID + "/records/" + user.id,
+      "/records/" + boardID + "/" + user.id,
       {
         checkpoint_id: this.state.checkpoint ? this.state.checkpoint.id : null,
         timestamp: +new Date(),
@@ -191,53 +192,29 @@ class BoardDetail extends React.Component {
         <Container className="leaderboard-detail">
           <Leaderboard board={board} />
 
-          {/* add me modal */}
-          <Modal isOpen={this.state.show_modal} toggle={this.toggleNameModal}>
-            <ModalHeader>
-              How you be calling yourself matey?
-            </ModalHeader>
-            <ModalBody>
-              <InputGroup>
-                <InputGroupAddon>name</InputGroupAddon>
-                <Input
-                  placeholder="Your name"
-                  value={this.state.name}
-                  onChange={e => this.handleChange("name", e.target.value)}
-                />
-              </InputGroup>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={this.onOnboardClick}>
-                On board!
-              </Button>
-            </ModalFooter>
-          </Modal>
+          <InputModal
+            header="How you be calling yourself matey?"
+            inputLabel="Name"
+            inputPlaceholder="Your name"
+            buttonLabel="Add me"
+            isOpen={this.state.show_modal}
+            toggle={this.toggleNameModal}
+            name={this.state.name}
+            onChange={e => this.handleChange("name", e.target.value)}
+            onSubmit={this.onOnboardClick}
+          />
 
-          {/* checkpoint modal */}
-          <Modal
+          <InputModal
+            header="Please, insert checkpoint code"
+            inputLabel="Code"
+            inputPlaceholder="Checkpoint code"
+            buttonLabel="Complete checkpoint"
             isOpen={this.state.show_checkpoint_modal}
             toggle={this.toggleCheckpointModal}
-          >
-            <ModalHeader toggle={this.toggleCheckpointModal}>
-              Please, insert checkpoint code
-            </ModalHeader>
-            <ModalBody>
-              <InputGroup>
-                <InputGroupAddon>code</InputGroupAddon>
-                <Input
-                  placeholder="Checkpoint code"
-                  value={this.state.checkpoint_code}
-                  onChange={e =>
-                    this.handleChange("checkpoint_code", e.target.value)}
-                />
-              </InputGroup>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={this.onCheckCodeClick}>
-                Check
-              </Button>
-            </ModalFooter>
-          </Modal>
+            name={this.state.checkpoint_code}
+            onChange={e => this.handleChange("checkpoint_code", e.target.value)}
+            onSubmit={this.onCheckCodeClick}
+          />
 
           {/* add button / user component */}
           <div className="fixed-button">

@@ -1,7 +1,7 @@
 import React from "react";
 import R from "ramda";
 import { Col } from "reactstrap";
-import { isBasic, getCheckpointsCodes } from "../../../selectors/board";
+import { isBasic, getCheckpointsCodes } from "../../selectors/board";
 
 export default ({ user, src, pos, board, inCard }) => {
   const boardCheckpointIds = getCheckpointsCodes(board);

@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
 
-import TopItem from "../TopItem";
+import TopItem from "./TopItem";
 
 export default ({ first, second, third, units, board, inCard }) => {
   return (

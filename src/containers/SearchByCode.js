@@ -55,7 +55,7 @@ class SearchByCode extends React.Component {
           this.findByCode();
         }}
       >
-        <FormGroup>
+        <FormGroup className="search-by-code">
           <InputGroup size="lg">
             <InputGroupAddon>#</InputGroupAddon>
             <Input
