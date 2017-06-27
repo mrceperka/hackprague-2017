@@ -186,19 +186,12 @@ class BoardDetail extends React.Component {
   renderLeaderBoard = () => {
     const { board } = this.props;
 
-    {
-      /*<FacebookShareButton
-      url={window.location.href}
-      title={board.title}
-    >
-      <FacebookIcon size={32} round />
-    </FacebookShareButton>*/
-    }
     return (
       <div>
         <Container className="leaderboard-detail">
           <Leaderboard board={board} />
 
+          {/* add me modal */}
           <Modal isOpen={this.state.show_modal} toggle={this.toggleNameModal}>
             <ModalHeader>
               How you be calling yourself matey?
@@ -220,6 +213,7 @@ class BoardDetail extends React.Component {
             </ModalFooter>
           </Modal>
 
+          {/* checkpoint modal */}
           <Modal
             isOpen={this.state.show_checkpoint_modal}
             toggle={this.toggleCheckpointModal}
@@ -245,6 +239,7 @@ class BoardDetail extends React.Component {
             </ModalFooter>
           </Modal>
 
+          {/* add button / user component */}
           <div className="fixed-button">
             <Button
               className="btn-block"

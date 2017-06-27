@@ -12,26 +12,11 @@ import {
   dataToJS
 } from "react-redux-firebase";
 
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  Col,
-  Row,
-  ListGroup,
-  ListGroupItem,
-  Badge,
-  Container,
-  InputGroupAddon,
-  InputGroup
-} from "reactstrap";
+import { Button, Form, FormGroup, Col, Row } from "reactstrap";
 
 import PageTitle from "../../components/Page/Title";
 import Page from "../../components/Page";
-import { TextInput, RadioInput, CheckpointInput } from "../../components/Input";
+import { Input, RadioInput, CheckpointInput } from "../../components/Input";
 
 import { getCheckpoints } from "../../selectors/board";
 
@@ -75,7 +60,7 @@ class BoardNew extends React.Component {
                 {this.isEdit() ? "Edit board" : "New board"}
               </PageTitle>
 
-              <TextInput
+              <Input
                 label="Your email address"
                 icon="email"
                 autoFocus
@@ -85,7 +70,7 @@ class BoardNew extends React.Component {
                 onChange={e => this.handleAnyChange("email", e.target.value)}
               />
 
-              <TextInput
+              <Input
                 label="Board name"
                 type="text"
                 name="title"
@@ -93,7 +78,7 @@ class BoardNew extends React.Component {
                 onChange={e => this.handleAnyChange("title", e.target.value)}
               />
 
-              <TextInput
+              <Input
                 label="Board description"
                 style={{ minHeight: 100 }}
                 type="textarea"
@@ -102,7 +87,7 @@ class BoardNew extends React.Component {
                 onChange={e => this.handleAnyChange("desc", e.target.value)}
               />
 
-              <TextInput
+              <Input
                 label="Board cover image link"
                 icon="link"
                 type="text"
@@ -114,7 +99,7 @@ class BoardNew extends React.Component {
               <hr />
               <div className="spacer" />
 
-              <TextInput
+              <Input
                 label="Board type"
                 subtitle="Basic for simple +1 boards, Checkpoints for series"
                 type="select"
@@ -124,7 +109,7 @@ class BoardNew extends React.Component {
               >
                 <option value="basic">Basic</option>
                 <option value="checkpoints">Checkpoints</option>
-              </TextInput>
+              </Input>
 
               {this.state.type === "basic" &&
                 <div>
@@ -140,7 +125,7 @@ class BoardNew extends React.Component {
                     ]}
                   />
 
-                  <TextInput
+                  <Input
                     label="Units of achievements"
                     subtitle="km, kg, apples eaten,..."
                     type="text"
