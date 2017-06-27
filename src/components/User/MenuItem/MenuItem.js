@@ -4,9 +4,8 @@ import { Row, Col } from "reactstrap";
 
 const MenuItem = ({ authInfo }) =>
   <div className="nav-link">
-    {console.log(authInfo)}
     <Row>
-      <Col>
+      <Col title={authInfo.id}>
         <i className="material-icons">account_circle</i>
         {authInfo.verified
           ? <i

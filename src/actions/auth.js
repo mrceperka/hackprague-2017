@@ -1,5 +1,5 @@
-export const signInAnonymously = () => ({
-  type: "SIGN_IN_ANONYMOUSLY"
+export const signIn = () => ({
+  type: "SIGN_IN"
 });
 
 export const setAnonymous = payload => ({
@@ -19,5 +19,10 @@ export const setId = payload => ({
 
 export const setLoggedIn = payload => ({
   type: "AUTH_SET_LOGGED_IN",
+  payload
+});
+
+export const setAuthCookie = payload => ({
+  type: "AUTH_SET_COOKIE",
   payload
 });
